@@ -1,0 +1,176 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const entries = (await getCollection('radar', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.title.localeCompare(b.data.title)
+);
+
+const RINGS = [
+  {
+    key: 'adopt',
+    label: 'Adopt',
+    note: 'I would default to this and argue against not doing it.',
+  },
+  {
+    key: 'trial',
+    label: 'Trial',
+    note: 'Worth doing deliberately, on something you can afford to get wrong.',
+  },
+  {
+    key: 'assess',
+    label: 'Assess',
+    note: 'Worth understanding. Not yet worth betting on.',
+  },
+  {
+    key: 'hold',
+    label: 'Hold',
+    note: 'Common, and I think it is a mistake. Reasons given.',
+  },
+] as const;
+
+const updated = entries.length
+  ? new Date(
+      Math.max(...entries.map((e) => e.data.updated.valueOf()))
+    ).toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: 'long',
+    })
+  : null;
+---
+
+<BaseLayout
+  title="Radar"
+  description="An opinionated, dated position on product, platform and compliance practices. Adopt, trial, assess or hold."
+>
+  <section class="wrap wrap--content head">
+    <p class="eyebrow">Radar</p>
+    <h1>What I would do, and what I would stop doing.</h1>
+    <p class="lede">
+      This is a straight borrow from the ThoughtWorks Technology Radar, pointed at product
+      practice instead of technology. Every item is a position I actually hold, placed in a
+      ring, and dated. Positions move. When one does, the entry says so rather than quietly
+      changing.
+    </p>
+    {updated && <p class="muted">Current edition: {updated}.</p>}
+  </section>
+
+  {
+    RINGS.map((ring) => {
+      const items = entries.filter((e) => e.data.ring === ring.key);
+      if (items.length === 0) return null;
+
+      return (
+        <section class="wrap wrap--content ring">
+          <div class="ring__head">
+            <h2 id={ring.key}>{ring.label}</h2>
+            <p class="ring__note">{ring.note}</p>
+          </div>
+
+          <ul class="ring__list">
+            {items.map((item) => (
+              <li class="blip">
+                <div class="blip__meta">
+                  <span class="blip__quadrant">{item.data.quadrant}</span>
+                  {item.data.moved === 'new' && <span class="blip__new">New</span>}
+                </div>
+                <h3>{item.data.title}</h3>
+                <p>{item.data.blurb}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })
+  }
+</BaseLayout>
+
+<style>
+  .head {
+    padding-top: var(--space-2xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .head h1 {
+    font-size: var(--step-title-lg);
+    max-width: 20ch;
+  }
+
+  .head .lede {
+    max-width: var(--measure);
+  }
+
+  .ring {
+    padding-top: var(--space-2xl);
+  }
+
+  .ring__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-m);
+    padding-bottom: var(--space-s);
+    border-bottom: var(--rule-weight) solid var(--rule-strong);
+  }
+
+  .ring__head h2 {
+    font-size: var(--step-title);
+    letter-spacing: var(--tracking-title);
+  }
+
+  .ring__note {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .ring__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--space-xl);
+    padding-top: var(--space-l);
+  }
+
+  .blip {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+  }
+
+  .blip__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .blip__quadrant {
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .blip__new {
+    font-size: var(--step-micro);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border: var(--rule-weight) solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+  }
+
+  .blip h3 {
+    font-size: var(--step-subtitle);
+    line-height: 1.3;
+  }
+
+  .blip p {
+    color: var(--ink-secondary);
+    font-size: var(--step-caption);
+    line-height: 1.6;
+  }
+</style>

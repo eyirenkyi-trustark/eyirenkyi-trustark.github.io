@@ -1,0 +1,95 @@
+---
+/**
+ * Themed figure.
+ *
+ * Screenshots are desaturated and sit on a hairline frame so product
+ * imagery reads as part of the black-on-off-white system rather than
+ * fighting it. Hovering restores full colour for anyone who wants the
+ * real thing.
+ *
+ * Only use images you own or are licensed to publish.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  credit?: string;
+  creditHref?: string;
+  /** Set false to keep an image in full colour. */
+  mono?: boolean;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  credit,
+  creditHref,
+  mono = true,
+} = Astro.props;
+---
+
+<figure class:list={['figure', mono && 'figure--mono']}>
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+
+  {
+    (caption || credit) && (
+      <figcaption>
+        {caption}
+        {credit && (
+          <span class="figure__credit">
+            {creditHref ? <a href={creditHref} rel="noopener">{credit}</a> : credit}
+          </span>
+        )}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .figure {
+    margin: var(--space-xl) 0;
+  }
+
+  .figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--rule-weight) solid var(--rule);
+    background: var(--ground-raised);
+  }
+
+  .figure--mono img {
+    filter: grayscale(1) contrast(1.02);
+    transition: filter var(--duration) var(--ease);
+  }
+
+  .figure--mono:hover img,
+  .figure--mono:focus-within img {
+    filter: none;
+  }
+
+  figcaption {
+    margin-top: var(--space-2xs);
+    font-size: var(--step-caption);
+    line-height: 1.45;
+    color: var(--ink-muted);
+  }
+
+  .figure__credit {
+    display: block;
+    font-size: var(--step-micro);
+    color: var(--ink-faint);
+  }
+
+  .figure__credit a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .figure--mono img {
+      transition: none;
+    }
+  }
+</style>

@@ -1,12 +1,14 @@
 ---
 /**
- * Monochrome wordmark.
+ * Monochrome company mark plus wordmark.
  *
- * These are typographic wordmarks set in the site's own typeface and
- * filled with currentColor, not copies of each company's trademarked
- * artwork. That keeps the logo strip visually consistent with the
- * black-on-off-white theme, inverts correctly in dark mode, and avoids
- * redistributing brand assets.
+ * Marks are drawn as inline SVG in currentColor so they sit inside the
+ * black-on-off-white system and invert correctly in dark mode. The Wise
+ * path comes from Simple Icons (CC0). Microsoft is its four-square
+ * geometry. The rest are simple abstract glyphs paired with a wordmark,
+ * not reproductions of brand artwork.
+ *
+ * Logos are used nominatively, to identify where the work was done.
  */
 interface Props {
   name: string;
@@ -14,22 +16,76 @@ interface Props {
   class?: string;
 }
 
-const WORDMARKS: Record<string, { label: string; href?: string }> = {
-  microsoft: { label: 'Microsoft', href: 'https://www.microsoft.com' },
-  wise: { label: 'Wise', href: 'https://wise.com' },
-  mpharma: { label: 'mPharma', href: 'https://mpharma.com' },
-  genkey: { label: 'GenKey', href: 'https://www.genkey.com' },
-  claimsync: { label: 'ClaimSync' },
+type Kind = 'ms' | 'wise' | 'flower' | 'key' | 'square';
+
+const MARKS: Record<string, { label: string; kind: Kind }> = {
+  microsoft: { label: 'Microsoft', kind: 'ms' },
+  wise: { label: 'Wise', kind: 'wise' },
+  mpharma: { label: 'mPharma', kind: 'flower' },
+  genkey: { label: 'GenKey', kind: 'key' },
+  claimsync: { label: 'ClaimSync', kind: 'square' },
+  mest: { label: 'MEST', kind: 'square' },
 };
 
 const { name, size = 'md', class: className } = Astro.props;
-
 const key = name.toLowerCase().replace(/[^a-z]/g, '');
-const mark = WORDMARKS[key] ?? { label: name };
+const mark = MARKS[key] ?? { label: name, kind: 'square' as Kind };
+
+const petals = [0, 60, 120, 180, 240, 300];
 ---
 
-<span class:list={['logo', `logo--${size}`, className]} aria-label={mark.label}>
-  <span class="logo__mark" aria-hidden="true"></span>
+<span class:list={['logo', `logo--${size}`, className]}>
+  <span class="logo__mark" aria-hidden="true">
+    {
+      mark.kind === 'ms' && (
+        <svg viewBox="0 0 24 24" role="presentation">
+          <rect x="1" y="1" width="10" height="10" />
+          <rect x="13" y="1" width="10" height="10" />
+          <rect x="1" y="13" width="10" height="10" />
+          <rect x="13" y="13" width="10" height="10" />
+        </svg>
+      )
+    }
+
+    {
+      mark.kind === 'wise' && (
+        <svg viewBox="0 0 24 24" role="presentation">
+          <path d="M6.488 7.469 0 15.05h11.585l1.301-3.576H7.922l3.033-3.507.01-.092L8.993 4.48h8.873l-6.878 18.925h4.706L24 .595H2.543l3.945 6.874Z" />
+        </svg>
+      )
+    }
+
+    {
+      mark.kind === 'flower' && (
+        <svg viewBox="0 0 24 24" role="presentation">
+          {
+            petals.map((deg) => (
+              <ellipse cx="12" cy="6.6" rx="3" ry="5.4" transform={`rotate(${deg} 12 12)`} />
+            ))
+          }
+        </svg>
+      )
+    }
+
+    {
+      mark.kind === 'key' && (
+        <svg viewBox="0 0 24 24" role="presentation">
+          <circle cx="7" cy="12" r="5.2" />
+          <rect x="10.5" y="10" width="12.5" height="4" />
+          <rect x="19" y="14" width="4" height="3.6" />
+        </svg>
+      )
+    }
+
+    {
+      mark.kind === 'square' && (
+        <svg viewBox="0 0 24 24" role="presentation">
+          <rect x="2" y="2" width="20" height="20" />
+        </svg>
+      )
+    }
+  </span>
+
   <span class="logo__text">{mark.label}</span>
 </span>
 
@@ -46,12 +102,17 @@ const mark = WORDMARKS[key] ?? { label: name };
     white-space: nowrap;
   }
 
-  /* A small solid square reads as a mark without imitating any brand. */
   .logo__mark {
-    width: 0.55em;
-    height: 0.55em;
-    background: currentColor;
+    display: inline-flex;
     flex: none;
+    width: 1em;
+    height: 1em;
+  }
+
+  .logo__mark svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
   }
 
   .logo--md {

@@ -62,4 +62,28 @@ const writing = defineCollection({
   }),
 });
 
-export const collections = { work, writing };
+/**
+ * Radar. A ThoughtWorks Technology Radar applied to product practice
+ * rather than technology: an opinionated, dated position on a practice,
+ * placed in one of four rings.
+ */
+const radar = defineCollection({
+  loader: glob({ base: './src/content/radar', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    ring: z.enum(['adopt', 'trial', 'assess', 'hold']),
+    quadrant: z.enum([
+      'Product practice',
+      'Platform and delivery',
+      'Security and compliance',
+      'Ways of working',
+    ]),
+    blurb: z.string(),
+    updated: z.coerce.date(),
+    // Set when a position has changed since the previous edition.
+    moved: z.enum(['new', 'moved-in', 'moved-out']).optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { work, writing, radar };
