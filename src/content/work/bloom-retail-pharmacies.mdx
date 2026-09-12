@@ -18,6 +18,8 @@ outcomes:
     label: 'Development hubs on one agile delivery model'
 ---
 
+import Figure from '../../components/Figure.astro';
+
 ## Context
 
 A stock-out is a supply chain event. To the person standing at the counter it is a
@@ -57,12 +59,34 @@ separate task. Replenishment signals had to arrive before the shelf was empty ra
 after. The system had to be useful on the first day, to the person using it, or it would
 never survive long enough to be useful to the network.
 
+<Figure
+  src="/images/work/bloom-mutti-pos.png"
+  alt="The Bloom point of sale, showing a member lookup alongside a product search and a cart. The cart applies a Mutti member discount and offers to schedule a refill."
+  caption="The counter, which is where the whole product had to earn its place. Selling is the primary act, so stock movement, member pricing and refill scheduling all hang off the sale rather than sitting in a separate admin screen. Note the two options next to the cart: schedule a refill, and provide at no cost. Both are clinical decisions wearing retail clothing."
+  credit="Bloom, mPharma. Demonstration data."
+/>
+
 The second decision was structural. We ran an agile delivery model across three development
 hubs, which meant the team could learn from pharmacies in one market and ship the
 improvement everywhere. Markets differed more than outsiders expect. Habits, infrastructure,
 regulation and wholesaler behaviour all varied. The delivery model had to separate what was
 genuinely local from what was common, or we would have built five products badly instead of
 one well.
+
+The third thing, and the one I underrated at the time, is that once selling is instrumented
+you stop guessing about demand. A network of pharmacies running the same system produces a
+picture of what patients are actually buying, at what strength, in what pack size, and in
+what combination.
+
+<Figure
+  src="/images/work/bloom-antimalarial-analytics.png"
+  alt="A Bloom analytics view of anti-malarial sales, comparing highest volume against highest value products, and relating malaria test kit sales to courses of therapy dispensed."
+  caption="The same data read as clinical behaviour rather than as sales. Full courses of therapy dominate over half and quarter packs, which is the outcome you want and cannot assume. Higher-strength packs sell in low volume but carry revenue. And roughly one course of therapy was dispensed for every two malaria tests, which is a positivity signal that arrived from a till rather than from a clinic."
+  credit="Bloom, mPharma."
+/>
+
+That last number is the argument for the whole category. A community pharmacy network with
+instrumented selling is a public health sensor, and nobody set out to build one.
 
 ## My role
 
@@ -111,11 +135,32 @@ patient management as the core and inventory as a consequence.
 It was also deployed in French for the Government of Gabon, to run the national central
 medical stores.
 
+The clearest picture of what the product actually did for a shopkeeper comes from Nigeria.
+mPharma's [year in review of the GoodHealth Shops](https://medium.com/mpharma-insights/year-in-review-goodhealth-shops-1aad1c922be7)
+describes putting Bloom on a tablet in patent and proprietary medicine vendor shops, almost
+none of which had any formal way to record a sale. Owners could suddenly see daily revenue
+and track stock, which mattered to them, and it made the monthly bill and the stock audit
+a shared set of numbers rather than an argument. Mutti members reached 4,120 and accounted
+for 65% of sales.
+
+Then the same data did something nobody designed it for. In March 2020 a handful of shops
+reported unusual demand for vitamin C and immune boosters. The dispensation data confirmed
+it across the whole network, the team bought ahead against it, and the elevated share of
+sales held for months. A network of corner shops had detected a behavioural response to a
+pandemic. That is the argument in this case study, arriving from a direction I did not
+anticipate.
+
 The 2021 figures are mPharma's, published after my time there, and the credit for that scale
 belongs to the team that ran it. I include them because they answer the question I could not
 answer in 2016, which was whether tooling for small independent pharmacies was worth building
 at all. A product that started as stock control for corner shops ended up carrying a national
 medicines supply chain.
+
+Nine years later I work at Microsoft, and Copilot is now being used by Zendawa to do a
+version of the same job in Kenyan pharmacies: less waste, better inventory, and a credit
+history built out of transaction data. I did not plan that symmetry and I cannot claim any
+of it. But it does suggest the problem was real, and that it was never really about the
+software.
 
 ## What I would do differently
 
@@ -134,7 +179,13 @@ We learned it, but we learned it per market, which is the expensive way.
 ## References
 
 - [mPharma 2021 Impact Report (PDF)](https://mpharma.com/wp-content/uploads/2022/04/Impact-Report-_mPharma-2021.pdf)
+- [Year in review: GoodHealth Shops](https://medium.com/mpharma-insights/year-in-review-goodhealth-shops-1aad1c922be7),
+  mPharma Insights. Bloom in Nigerian PPMV shops, and the demand signals it produced.
+- [Copilot and Zendawa in Kenyan pharmacies](https://msft.it/6040tCmqY), Microsoft.
 - [mPharma](https://mpharma.com/)
 - [UI patterns for onboarding](https://medium.com/design-bootcamp/ui-patterns-for-onboarding-f65be266c4fb),
   by Blessing Mikairu. A later look inside Bloom, covering how pharmacy onboarding was
   rebuilt with segmentation, empty states, checklists and nudges.
+
+Everything here, and the rest of the record, is on the
+[sources timeline](/sources#mpharma).

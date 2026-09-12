@@ -1,0 +1,484 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { roles, sortedSources, kindLabels, roleFor } from '../data/sources';
+
+const all = sortedSources();
+
+// Group by year, newest first.
+const years = [...new Set(all.map((s) => s.date.slice(0, 4)))].sort((a, b) =>
+  b.localeCompare(a)
+);
+
+const byYear = years.map((year) => ({
+  year,
+  items: all.filter((s) => s.date.slice(0, 4) === year),
+}));
+
+const orderedRoles = [...roles].sort((a, b) => a.order - b.order);
+
+const counts = Object.fromEntries(
+  orderedRoles.map((r) => [r.key, all.filter((s) => s.role === r.key).length])
+);
+
+function monthLabel(iso: string): string {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', {
+    month: 'short',
+    timeZone: 'UTC',
+  });
+}
+---
+
+<BaseLayout
+  title="Sources"
+  description="Every article, report, press piece and post behind the work, grouped by role and laid out as a navigable timeline."
+>
+  <section class="wrap wrap--content head">
+    <p class="eyebrow">Sources</p>
+    <h1>The receipts, in order.</h1>
+    <p class="lede">
+      Case studies are my account of what happened. This is the public record that sits
+      underneath them: press coverage, published reports, articles by other people, and my
+      own posts from the time. Filter by role, or read the whole thing top to bottom.
+    </p>
+    <p class="muted">
+      {all.length} sources across {orderedRoles.length} roles, from {years[years.length - 1]} to {
+        years[0]
+      }. Every link was checked when it was added.
+    </p>
+  </section>
+
+  <div class="wrap wrap--content">
+    <nav class="filters" aria-label="Filter sources by role">
+      <button type="button" class="chip is-active" data-role="all" aria-pressed="true">
+        Everything <span class="chip__count">{all.length}</span>
+      </button>
+      {
+        orderedRoles.map((role) => (
+          <button
+            type="button"
+            class="chip"
+            data-role={role.key}
+            aria-pressed="false"
+          >
+            {role.organisation} <span class="chip__count">{counts[role.key]}</span>
+          </button>
+        ))
+      }
+    </nav>
+
+    <div class="rolecard" data-rolecard hidden>
+      <div>
+        <p class="rolecard__title" data-rolecard-title></p>
+        <p class="rolecard__period" data-rolecard-period></p>
+      </div>
+      <a class="rolecard__link" data-rolecard-link hidden>Read the case study</a>
+    </div>
+  </div>
+
+  <div class="wrap wrap--content timeline" data-timeline>
+    {
+      byYear.map((group) => (
+        <section class="year" data-year={group.year}>
+          <h2 class="year__label" id={`y${group.year}`}>
+            {group.year}
+          </h2>
+
+          <ol class="entries">
+            {group.items.map((s) => {
+              const role = roleFor(s.role);
+              return (
+                <li class="entry" id={s.id} data-role={s.role}>
+                  <div class="entry__rail" aria-hidden="true">
+                    <span class="entry__dot" />
+                  </div>
+
+                  <div class="entry__body">
+                    <p class="entry__meta">
+                      <time datetime={s.date}>{monthLabel(s.date)}</time>
+                      <span class="entry__sep">/</span>
+                      <span class="entry__role">{role.organisation}</span>
+                      <span class="entry__sep">/</span>
+                      <span class="entry__kind">{kindLabels[s.kind]}</span>
+                      {s.mine && <span class="entry__mine">Mine</span>}
+                    </p>
+
+                    <h3 class="entry__title">
+                      <a href={s.url} rel="noopener nofollow" target="_blank">
+                        {s.title}
+                      </a>
+                    </h3>
+
+                    <p class="entry__publisher">{s.publisher}</p>
+
+                    {s.note && <p class="entry__note">{s.note}</p>}
+
+                    <button
+                      type="button"
+                      class="entry__share"
+                      data-share={s.id}
+                      aria-label={`Copy a link to ${s.title}`}
+                    >
+                      Copy link
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      ))
+    }
+
+    <p class="empty" data-empty hidden>Nothing filed under this role yet.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  const timeline = document.querySelector('[data-timeline]');
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip'));
+  const entries = Array.from(document.querySelectorAll<HTMLElement>('.entry'));
+  const yearSections = Array.from(document.querySelectorAll<HTMLElement>('.year'));
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  const card = document.querySelector<HTMLElement>('[data-rolecard]');
+  const cardTitle = document.querySelector<HTMLElement>('[data-rolecard-title]');
+  const cardPeriod = document.querySelector<HTMLElement>('[data-rolecard-period]');
+  const cardLink = document.querySelector<HTMLAnchorElement>('[data-rolecard-link]');
+
+  const roleMeta: Record<string, { title: string; period: string; work?: string }> =
+    JSON.parse(document.getElementById('role-meta')?.textContent || '{}');
+
+  function apply(role: string, push = true) {
+    let shown = 0;
+
+    for (const entry of entries) {
+      const match = role === 'all' || entry.dataset.role === role;
+      entry.hidden = !match;
+      if (match) shown += 1;
+    }
+
+    // Hide a year heading when nothing under it survived the filter.
+    for (const section of yearSections) {
+      const visible = section.querySelectorAll('.entry:not([hidden])').length;
+      section.hidden = visible === 0;
+    }
+
+    if (empty) empty.hidden = shown > 0;
+
+    for (const chip of chips) {
+      const active = chip.dataset.role === role;
+      chip.classList.toggle('is-active', active);
+      chip.setAttribute('aria-pressed', String(active));
+    }
+
+    const meta = roleMeta[role];
+    if (card && meta) {
+      card.hidden = false;
+      if (cardTitle) cardTitle.textContent = meta.title;
+      if (cardPeriod) cardPeriod.textContent = meta.period;
+      if (cardLink) {
+        if (meta.work) {
+          cardLink.href = `/work/${meta.work}/`;
+          cardLink.hidden = false;
+        } else {
+          cardLink.hidden = true;
+        }
+      }
+    } else if (card) {
+      card.hidden = true;
+    }
+
+    if (push) {
+      const url = role === 'all' ? location.pathname : `${location.pathname}#${role}`;
+      history.replaceState(null, '', url);
+    }
+  }
+
+  for (const chip of chips) {
+    chip.addEventListener('click', () => apply(chip.dataset.role || 'all'));
+  }
+
+  // Deep links. #wise filters; #some-source-id jumps to one entry.
+  function fromHash() {
+    const hash = location.hash.slice(1);
+    if (!hash) return apply('all', false);
+
+    if (chips.some((c) => c.dataset.role === hash)) return apply(hash, false);
+
+    apply('all', false);
+    document.getElementById(hash)?.scrollIntoView({ block: 'center' });
+    document.getElementById(hash)?.classList.add('is-targeted');
+  }
+
+  fromHash();
+  window.addEventListener('hashchange', fromHash);
+
+  // Share a single source.
+  timeline?.addEventListener('click', async (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
+      '[data-share]'
+    );
+    if (!button) return;
+
+    const url = `${location.origin}${location.pathname}#${button.dataset.share}`;
+    const original = button.textContent;
+
+    try {
+      await navigator.clipboard.writeText(url);
+      button.textContent = 'Copied';
+    } catch {
+      button.textContent = url;
+    }
+
+    window.setTimeout(() => {
+      button.textContent = original;
+    }, 2000);
+  });
+</script>
+
+<script type="application/json" id="role-meta" is:inline set:html={JSON.stringify(
+  Object.fromEntries(
+    roles.map((r) => [r.key, { title: `${r.organisation}. ${r.title}.`, period: r.period, work: r.work }])
+  )
+)} />
+
+<style>
+  .head {
+    padding-top: var(--space-2xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .head h1 {
+    font-size: var(--step-title-lg);
+    max-width: 20ch;
+  }
+
+  .head .lede {
+    max-width: var(--measure);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs, 0.4rem);
+    padding-top: var(--space-xl);
+  }
+
+  .chip {
+    font: inherit;
+    font-size: var(--step-caption);
+    color: var(--ink-secondary);
+    background: none;
+    border: var(--rule-weight) solid var(--rule);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    cursor: pointer;
+    transition:
+      color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  .chip:hover {
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+
+  .chip.is-active {
+    color: var(--ground);
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .chip__count {
+    font-size: var(--step-micro);
+    opacity: 0.6;
+    margin-left: 0.2rem;
+  }
+
+  .rolecard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+    padding: var(--space-s) 0;
+    border-top: var(--rule-weight) solid var(--rule);
+  }
+
+  .rolecard__title {
+    font-size: var(--step-caption);
+    color: var(--ink);
+  }
+
+  .rolecard__period {
+    font-size: var(--step-micro);
+    color: var(--ink-muted);
+  }
+
+  .rolecard__link {
+    margin-left: auto;
+    font-size: var(--step-caption);
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+  }
+
+  .timeline {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  /* The hidden attribute must beat the layout display values below. */
+  .entry[hidden],
+  .year[hidden],
+  .rolecard[hidden],
+  .empty[hidden],
+  .rolecard__link[hidden] {
+    display: none;
+  }
+
+  .year {
+    position: relative;
+  }
+
+  .year__label {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    font-size: var(--step-caption);
+    letter-spacing: var(--tracking-eyebrow);
+    color: var(--ink-muted);
+    background: var(--ground);
+    padding: var(--space-xs) 0;
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 1.75rem 1fr;
+    gap: var(--space-s);
+    padding: var(--space-l) 0;
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .entry__rail {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .entry__rail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: calc(var(--space-l) * -1);
+    width: var(--rule-weight);
+    background: var(--rule);
+  }
+
+  .entry__dot {
+    position: relative;
+    margin-top: 0.45rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ground);
+    border: var(--rule-weight) solid var(--ink-muted);
+  }
+
+  .entry:hover .entry__dot {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .entry__body {
+    display: grid;
+    gap: var(--space-3xs, 0.35rem);
+  }
+
+  .entry__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .entry__sep {
+    opacity: 0.4;
+  }
+
+  .entry__mine {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink);
+    border: var(--rule-weight) solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 0.05rem 0.45rem;
+  }
+
+  .entry__title {
+    font-size: var(--step-subtitle);
+    line-height: 1.3;
+  }
+
+  .entry__title a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+    text-underline-offset: 0.2em;
+  }
+
+  .entry__publisher {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .entry__note {
+    max-width: var(--measure);
+    font-size: var(--step-caption);
+    line-height: 1.6;
+    color: var(--ink-secondary);
+  }
+
+  .entry__share {
+    justify-self: start;
+    margin-top: var(--space-2xs);
+    font: inherit;
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .entry__share:hover {
+    color: var(--ink);
+  }
+
+  .entry.is-targeted .entry__dot {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .empty {
+    padding: var(--space-xl) 0;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 34rem) {
+    .entry {
+      grid-template-columns: 1rem 1fr;
+    }
+  }
+</style>
