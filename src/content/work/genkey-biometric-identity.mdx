@@ -1,0 +1,127 @@
+---
+title: 'Biometric identity, and the people it has to work for'
+summary: 'Front-end and user experience for biometric voter registration and health insurance verification at GenKey, where a failed match is not an error message but a person turned away.'
+organisation: GenKey
+role: 'Software Engineer, Front-End and User Experience'
+period: 'Jan 2014 to Sep 2016'
+order: 6
+featured: false
+tags:
+  ['Biometrics', 'Elections', 'Health insurance', 'Public sector', 'Design for constraint']
+outcomes:
+  - value: 'Elections'
+    label: 'Voter registration systems used in African elections'
+  - value: 'Health'
+    label: 'Claims and membership verification for insurance schemes'
+  - value: 'Field-first'
+    label: 'Interfaces designed for operators, not for demos'
+---
+
+## Context
+
+When GenKey acquired ClaimSync I went with it, and the problem I had been working on got
+considerably larger.
+
+GenKey was founded in 2001 out of a merger with priv-ID, a spin-out of Philips' biometrics
+research division, and it builds large-scale biometric identity programmes for governments
+and public institutions. It is headquartered in The Hague with an office in Accra, which is
+where I worked. The technology sits underneath two things that matter enormously in West
+Africa: who is allowed to vote, and who is entitled to health care.
+
+I joined in January 2014. Ghana had first deployed biometrics in its 2012 general elections,
+using a system supplied by GenKey, and that deployment
+[had been publicly criticised for failures](https://www.biometricupdate.com/202412/biometrics-use-in-ghana-elections-matures).
+That was the environment I walked into, and it shaped what I think this work is actually
+about.
+
+## Approach
+
+A biometric system has one failure mode that matters more than all the others, and it is not
+a false accept.
+
+It is the legitimate person who does not match. An elderly voter whose fingerprints have
+worn smooth. A manual labourer with damaged ridges. Someone whose enrolment was captured
+badly, in poor light, by a tired operator at the end of a long day. On a spreadsheet that is
+a false reject rate. In a queue outside a polling station it is a citizen being told that the
+machine does not believe they are who they say they are.
+
+Everything I worked on came back to that. The interfaces were used by field operators
+working in heat, in bad light, on constrained hardware, often far from anyone who could
+help, under time pressure that was not negotiable because an election has a date. The design
+question was never how to make the software impressive. It was what the operator should see
+in the three seconds after a match fails, and whether the next action is obvious enough to
+take under pressure with a queue forming.
+
+That meant designing for the exception rather than the happy path, because at national scale
+the exception happens tens of thousands of times. It meant capture quality feedback at
+enrolment, when the problem is still cheap to fix, rather than discovering it at verification
+when it is not. And it meant an escalation path that keeps a real person in the process,
+because the alternative is a machine disenfranchising someone.
+
+The same logic applied on the health side. Biometric membership verification for insurance is
+a fraud control, and it works: it stops one person's card being used by several people, which
+is a real and expensive problem. But the failure mode is identical. A patient who cannot
+authenticate is a patient who may not be treated, and the system has to be far more careful
+about that direction of error than about the other one.
+
+## My role
+
+I led front-end engineering and user experience for these systems.
+
+In practice that meant building the interfaces operators used, sitting with the people who
+ran deployments, and translating what went wrong in the field into changes that made the
+next deployment less fragile. Coming from ClaimSync, I already knew the health insurance
+side, so I worked across both the claims lineage and the identity systems.
+
+It was also the period when I stopped being a founder who designed and became an engineer
+who designed, which is a distinction that took me some time to appreciate. The standards are
+different when your code runs somewhere you will never visit, in conditions you cannot
+simulate, on a day that cannot be rescheduled.
+
+## Outcome
+
+- Delivered front-end and user experience for biometric voter registration systems used in
+  African elections.
+- Worked across biometric verification for health insurance, extending the claims work that
+  began at ClaimSync.
+- Built operator-facing interfaces designed around capture quality and failure handling
+  rather than demonstration flows.
+
+## Why it still matters
+
+Ghana has kept going with this. By the December 2024 general elections, 18.3 million
+registered voters were eligible to be verified biometrically, using both fingerprint and
+face. Reporting from that election describes exactly the problem I have described above:
+in some constituencies, aged voters could not be verified by fingerprint, and officials
+[resorted to facial verification](https://www.biometricupdate.com/202412/biometrics-use-in-ghana-elections-matures)
+to get them through. The fallback existed, and it worked.
+
+Ghana's National Health Insurance Scheme has since moved in the same direction, rolling out
+[biometric membership authentication](https://www.nhis.gov.gh/) to cut claims fraud.
+
+I am not claiming credit for any of that. I am pointing out that a decade later the
+engineering question has not changed. The system is judged on whether the person it fails
+has somewhere to go.
+
+## What I would do differently
+
+I would have pushed much harder to get the failure data back from the field in a structured
+form.
+
+We learned about problems through stories: an operator said this, a deployment lead reported
+that. The stories were true and they were useful, but they were not countable, so we could
+not tell a widespread problem from a memorable one. Instrumenting capture quality and match
+failure by device, by operator, by region would have told us where to spend the effort. We
+were arguing from anecdote about a system that was generating an enormous amount of evidence
+nobody was collecting.
+
+## References
+
+- [GenKey](https://www.genkey.com/about-us/)
+- [Biometrics use in Ghana elections matures](https://www.biometricupdate.com/202412/biometrics-use-in-ghana-elections-matures),
+  Biometric Update. Covers the 2012 GenKey deployment, the 2024 election, and the
+  fingerprint failures among older voters.
+- [GenKey on Biometric Update](https://www.biometricupdate.com/companies/genkey)
+- [Ghana National Health Insurance Scheme](https://www.nhis.gov.gh/)
+
+The full record is on the [sources timeline](/sources#genkey).

@@ -11,6 +11,18 @@ import { site } from '../lib/site';
     <p class="eyebrow">About</p>
     <h1>I build products for technical teams working inside regulated, high trust environments.</h1>
 
+    <figure class="portrait">
+      <img
+        src="/images/emmanuel-addo-yirenkyi.jpg"
+        alt="Emmanuel Bediako Addo-Yirenkyi"
+        width="1069"
+        height="1600"
+        loading="eager"
+        decoding="async"
+      />
+      <figcaption>Emmanuel Bediako Addo-Yirenkyi. Accra, Lagos, London, Seattle.</figcaption>
+    </figure>
+
     <div class="prose">
       <p>
         My work has moved across health care, elections, fintech and hyperscale cloud. The
@@ -27,6 +39,16 @@ import { site } from '../lib/site';
         how people make decisions when the stakes are high. A good product changes the
         behaviour of a system. In our case, better digital claims workflows helped reduce
         fraud by about 20% and created enough value for the company to be acquired.
+      </p>
+
+      <p>
+        ClaimSync was acquired by GenKey, and I stayed on to lead front-end engineering and
+        user experience for biometric voter registration used in African elections, and for
+        biometric verification in health insurance. That work taught me the lesson I have
+        carried furthest. A biometric system is not judged on the people it matches. It is
+        judged on the elderly voter whose fingerprints have worn smooth, and on whether there
+        is somewhere for that person to go when the machine says no. Design for the exception,
+        because at national scale the exception is tens of thousands of people.
       </p>
 
       <p>
@@ -93,8 +115,9 @@ import { site } from '../lib/site';
         <strong>Paul Graham</strong> for the form. Plain prose, one idea worked all the way
         through, no illustration where a sentence will do, and the willingness to publish a
         thought that is not yet fashionable. His essays are the reason this site has no stock
-        photography and no reading-time badges. Images appear only where they are evidence of
-        something I am claiming. If the writing needs decoration, the writing is not finished.
+        photography and no reading-time badges. Beyond one portrait, images appear only where
+        they are evidence of something I am claiming. If the writing needs decoration, the
+        writing is not finished.
       </p>
 
       <p>
@@ -184,6 +207,27 @@ import { site } from '../lib/site';
     font-size: var(--step-title-lg);
     max-width: 20ch;
     margin-bottom: var(--space-xl);
+  }
+
+  .portrait {
+    margin: 0 0 var(--space-xl);
+    max-width: 17rem;
+  }
+
+  .portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 22%;
+    border: var(--rule-weight) solid var(--rule);
+  }
+
+  .portrait figcaption {
+    margin-top: var(--space-2xs, 0.4rem);
+    font-size: var(--step-micro);
+    color: var(--ink-muted);
   }
 
   .about__foot {
