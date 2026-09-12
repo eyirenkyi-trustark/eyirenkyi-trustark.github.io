@@ -25,7 +25,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      # Not npm ci. The dependency tree includes optional, platform-specific
+      # wasm packages whose transitive versions resolve differently on Linux
+      # than on the Windows machine the lockfile is written on, which makes
+      # npm ci fail on a lockfile that is perfectly valid locally.
+      - run: npm install --no-audit --no-fund
 
       - run: npm run build
 
