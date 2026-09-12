@@ -1,0 +1,150 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const essays = posts.filter((p) => p.data.kind === 'essay');
+const notes = posts.filter((p) => p.data.kind === 'note');
+---
+
+<BaseLayout
+  title="Writing"
+  description="Weekly essays on product leadership, security and developer platforms, plus shorter notes on what I am reading."
+>
+  <section class="wrap wrap--content page-head">
+    <p class="eyebrow">Writing</p>
+    <h1>Thinking out loud, once a week.</h1>
+    <p class="lede">
+      Essays are longer pieces with an argument I am willing to defend. Reading notes are
+      shorter reactions to things worth passing on.
+    </p>
+    <p class="feed-link">
+      <a href="/rss.xml">Subscribe by RSS</a>
+    </p>
+  </section>
+
+  <section class="wrap wrap--content">
+    {
+      posts.length === 0 && (
+        <p class="muted pending">The first posts are being written. Check back shortly.</p>
+      )
+    }
+
+    <div class="filters" data-filters hidden={posts.length === 0}>
+      <button type="button" data-filter="all" class="filter is-active">
+        All <span class="filter__count">{posts.length}</span>
+      </button>
+      <button type="button" data-filter="essay" class="filter">
+        Essays <span class="filter__count">{essays.length}</span>
+      </button>
+      <button type="button" data-filter="note" class="filter">
+        Reading notes <span class="filter__count">{notes.length}</span>
+      </button>
+    </div>
+
+    <div class="post-list">
+      {
+        posts.map((post) => (
+          <div data-kind={post.data.kind}>
+            <PostCard post={post} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-l);
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .page-head h1 {
+    font-size: var(--step-title-lg);
+    max-width: 18ch;
+  }
+
+  .page-head .lede {
+    max-width: var(--measure);
+  }
+
+  .feed-link {
+    font-size: var(--step-caption);
+  }
+
+  .feed-link a {
+    color: var(--ink-muted);
+    text-decoration: underline;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    padding-bottom: var(--space-s);
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .filter {
+    background: none;
+    border: var(--rule-weight) solid var(--rule);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition:
+      color var(--duration-fast) var(--ease),
+      border-color var(--duration-fast) var(--ease);
+  }
+
+  .filter:hover {
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+
+  .filter.is-active {
+    color: var(--ground);
+    background-color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .filter__count {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.6;
+    margin-left: 0.2rem;
+  }
+
+  .post-list {
+    padding-bottom: var(--space-2xl);
+  }
+
+  .pending {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+</style>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const items = document.querySelectorAll<HTMLElement>('.post-list [data-kind]');
+
+  filters.forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.dataset.filter;
+
+      filters.forEach((b) => b.classList.toggle('is-active', b === button));
+
+      items.forEach((item) => {
+        const show = target === 'all' || item.dataset.kind === target;
+        item.hidden = !show;
+      });
+    });
+  });
+</script>

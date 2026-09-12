@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WorkCard from '../../components/WorkCard.astro';
+
+const entries = (await getCollection('work', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<BaseLayout
+  title="Work"
+  description="Selected case studies in cloud security and compliance, developer platforms, regulated fintech and health technology."
+>
+  <section class="wrap wrap--content page-head">
+    <p class="eyebrow">Selected work</p>
+    <h1>Problems I have been trusted with.</h1>
+    <p class="lede">
+      Chosen for depth rather than coverage. Each one describes the problem, what I did,
+      and what actually changed.
+    </p>
+    <p class="provenance">
+      These case studies describe outcomes already summarised in my CV. They contain no
+      confidential systems, data or implementation detail.
+    </p>
+  </section>
+
+  <section class="wrap wrap--content">
+    {
+      entries.length > 0 ? (
+        <div class="work-list">
+          {entries.map((entry) => (
+            <WorkCard entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="muted pending">
+          Case studies are being written and will appear here shortly.
+        </p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-l);
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .page-head h1 {
+    font-size: var(--step-title-lg);
+    max-width: 18ch;
+  }
+
+  .page-head .lede {
+    max-width: var(--measure);
+  }
+
+  .provenance {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+    max-width: var(--measure);
+    border-left: 2px solid var(--rule-strong);
+    padding-left: var(--space-s);
+  }
+
+  .work-list {
+    border-top: var(--rule-weight) solid var(--rule);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .pending {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+</style>

@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../lib/site';
+
+const roles = [
+  {
+    title: 'Senior Program Manager, Developer Experience and Platform Compute',
+    org: 'Microsoft',
+    place: 'Atlanta, Georgia',
+    period: 'Sep 2024 to present',
+  },
+  {
+    title: 'Product and Program Manager, Developer Experience and Platform Compute',
+    org: 'Microsoft',
+    place: 'Tallinn, Estonia',
+    period: 'Mar 2021 to Aug 2024',
+  },
+  {
+    title: 'Product Manager, MEA and Regional Expansion',
+    org: 'Wise',
+    place: 'Tallinn, Estonia',
+    period: 'Dec 2019 to Jan 2021',
+  },
+  {
+    title: 'Product Manager, Bloom and Retail Pharmacies',
+    org: 'mPharma',
+    place: 'Accra, Ghana',
+    period: 'Sep 2016 to Nov 2019',
+  },
+  {
+    title: 'Software Engineer, Front-End and User Experience',
+    org: 'GenKey',
+    place: 'Accra, Ghana',
+    period: 'Jan 2014 to Sep 2016',
+  },
+  {
+    title: 'Co-founder, Product Designer and Implementation Lead',
+    org: 'ClaimSync',
+    place: 'Accra, Ghana',
+    period: 'Jun 2011 to Jan 2014',
+  },
+];
+
+const education = [
+  {
+    title: 'EMBA, Entrepreneurship Management',
+    org: 'University of Ghana',
+    period: 'Aug 2017 to Nov 2020',
+  },
+  {
+    title: 'Executive Education, Implementing Enterprise-wide Transformation',
+    org: 'MIT Sloan School of Management',
+    period: 'Jan 2018',
+  },
+  {
+    title: 'Executive Education',
+    org: 'Yale School of Management',
+    period: 'Jan 2018',
+  },
+  {
+    title: 'Certificate in Software Entrepreneurship',
+    org: 'MEST Africa',
+    period: '2009 to 2011',
+  },
+  {
+    title: 'BSc Biochemistry',
+    org: 'University of Ghana',
+    period: '2005 to 2009',
+  },
+];
+---
+
+<BaseLayout
+  title="CV"
+  description="Curriculum vitae for Emmanuel Addo-Yirenkyi, product and program leader in security, compliance and developer platforms."
+>
+  <section class="wrap wrap--content page">
+    <p class="eyebrow">Curriculum vitae</p>
+    <h1>Emmanuel Bediako Addo-Yirenkyi</h1>
+    <p class="lede">
+      Product and program leadership across security and compliance, developer platforms,
+      regulated fintech and health technology.
+    </p>
+
+    <p class="download">
+      <a href={site.cvPath} download>Download the full CV (PDF)</a>
+    </p>
+
+    <h2 class="group-title">Experience</h2>
+    <ol class="entries">
+      {
+        roles.map((role) => (
+          <li class="entry">
+            <div class="entry__period">{role.period}</div>
+            <div class="entry__detail">
+              <h3>{role.title}</h3>
+              <p class="muted">
+                {role.org} · {role.place}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <h2 class="group-title">Education</h2>
+    <ol class="entries">
+      {
+        education.map((item) => (
+          <li class="entry">
+            <div class="entry__period">{item.period}</div>
+            <div class="entry__detail">
+              <h3>{item.title}</h3>
+              <p class="muted">{item.org}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="more">
+      The <a href="/work">case studies</a> go into more depth on the work itself.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .page h1 {
+    font-size: var(--step-title-lg);
+    margin-bottom: var(--space-m);
+  }
+
+  .page .lede {
+    max-width: var(--measure);
+  }
+
+  .download {
+    margin-top: var(--space-m);
+    font-size: var(--step-caption);
+  }
+
+  .download a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+  }
+
+  .group-title {
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: var(--weight-semibold);
+    margin-top: var(--space-2xl);
+    padding-bottom: var(--space-s);
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: var(--space-xl);
+    padding-block: var(--space-m);
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .entry__period {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .entry__detail h3 {
+    font-size: var(--step-body-lg);
+    line-height: 1.4;
+    font-weight: var(--weight-semibold);
+  }
+
+  .entry__detail .muted {
+    font-size: var(--step-caption);
+    margin-top: var(--space-3xs);
+  }
+
+  .more {
+    margin-top: var(--space-xl);
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .more a {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 40rem) {
+    .entry {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xs);
+    }
+  }
+</style>

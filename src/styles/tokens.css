@@ -1,0 +1,141 @@
+/*
+  Design tokens.
+
+  Palette and type scale follow the Microsoft Fluent 2 design language,
+  adapted for a long-form reading site: near-black ink on an off-white
+  ground, a strict type ramp, hairline rules instead of cards.
+*/
+
+:root {
+  /* ---------------------------------------------------------------
+     Typeface
+
+     Segoe UI Variable is not licensed for web redistribution, so we
+     request it from the local machine first and fall back to a stack
+     chosen to match its metrics on macOS, Linux, iOS and Android.
+     --------------------------------------------------------------- */
+  --font-sans:
+    'Segoe UI Variable Display', 'Segoe UI Variable Text', 'Segoe UI',
+    -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', Arial,
+    system-ui, sans-serif;
+  --font-text:
+    'Segoe UI Variable Text', 'Segoe UI', -apple-system, BlinkMacSystemFont,
+    'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-mono:
+    'Cascadia Code', 'Cascadia Mono', ui-monospace, SFMono-Regular,
+    'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* ---------------------------------------------------------------
+     Colour, light theme
+
+     Fluent's light ink is #242424, not pure black, and #0A0A0A is
+     a Fluent dark-mode background rather than a light-mode ink. The
+     ground stays a warm off-white and the ink backs off pure black,
+     which holds ~14.9:1 contrast while staying comfortable for long
+     reading. Pure black is reserved for display type only.
+     --------------------------------------------------------------- */
+  --ground: #f8f6f2;
+  --ground-raised: #fffefb;
+  --ground-sunken: #efece6;
+  --ink: #241f1a;
+  --ink-display: #14100d;
+  --ink-secondary: #443d36;
+  --ink-muted: #6e675f;
+  --ink-faint: #928b82;
+  --rule: #e3dfd8;
+  --rule-strong: #cfcac2;
+  --accent: #241f1a;
+  --accent-underline: #b8b2a8;
+  --focus: #1a5fb4;
+  --selection: #e6e1d8;
+
+  /* ---------------------------------------------------------------
+     Type scale, from the Fluent 2 ramp
+
+     Display and the titles use clamp() so the hero scales smoothly
+     between a phone and a wide desktop without breakpoint jumps.
+     --------------------------------------------------------------- */
+  --step-display: clamp(2.75rem, 1.6rem + 5.4vw, 4.25rem);
+  --step-display-lh: 1.06;
+  --step-title-lg: clamp(1.875rem, 1.35rem + 2.2vw, 2.5rem);
+  --step-title-lg-lh: 1.2;
+  --step-title: clamp(1.375rem, 1.15rem + 0.95vw, 1.75rem);
+  --step-title-lh: 1.28;
+  --step-subtitle: 1.25rem;
+  --step-subtitle-lh: 1.4;
+  --step-body-lg: 1.125rem;
+  --step-body: 1rem;
+  --step-body-lh: 1.65;
+  --step-caption: 0.875rem;
+  --step-micro: 0.75rem;
+
+  --tracking-display: -0.022em;
+  --tracking-title: -0.014em;
+  --tracking-body: 0;
+  --tracking-eyebrow: 0.09em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* ---------------------------------------------------------------
+     Spacing, a 4px base scale
+     --------------------------------------------------------------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 6.5rem;
+  --space-4xl: 9rem;
+
+  /* ---------------------------------------------------------------
+     Layout
+     --------------------------------------------------------------- */
+  --measure: 68ch;
+  --width-prose: 44rem;
+  --width-content: 60rem;
+  --width-wide: 76rem;
+  --gutter: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
+
+  --rule-weight: 1px;
+  --radius: 2px;
+
+  /* ---------------------------------------------------------------
+     Motion, kept deliberately restrained
+     --------------------------------------------------------------- */
+  --ease: cubic-bezier(0.33, 0, 0.15, 1);
+  --duration-fast: 120ms;
+  --duration: 220ms;
+
+  color-scheme: light;
+}
+
+/* -------------------------------------------------------------------
+   Dark theme
+
+   A straight inversion of the same relationships. The ground never
+   becomes pure black and the ink never becomes pure white, which keeps
+   long-form reading comfortable.
+   ------------------------------------------------------------------- */
+:root[data-theme='dark'] {
+  --ground: #1a1714;
+  --ground-raised: #221e1a;
+  --ground-sunken: #131110;
+  --ink: #f2efea;
+  --ink-display: #faf8f5;
+  --ink-secondary: #c9c5be;
+  --ink-muted: #9a958d;
+  --ink-faint: #6f6b64;
+  --rule: #302c27;
+  --rule-strong: #433e38;
+  --accent: #f2efea;
+  --accent-underline: #55514b;
+  --focus: #7aa7e8;
+  --selection: #332f2a;
+
+  color-scheme: dark;
+}

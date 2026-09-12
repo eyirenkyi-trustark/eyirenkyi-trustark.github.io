@@ -1,0 +1,106 @@
+---
+title: 'Making vulnerability remediation a system, not a scramble'
+summary: 'Turning security remediation across a large cloud estate from recurring manual effort into an operating mechanism that holds under audit.'
+organisation: Microsoft
+role: 'Senior Program Manager, Developer Experience and Platform Compute'
+period: 'Sep 2024 to present'
+order: 1
+featured: true
+tags: ['Cloud security', 'Compliance', 'Operating mechanisms', 'Program leadership']
+outcomes:
+  - value: 'Zero'
+    label: 'PCI and FedRAMP vulnerability audit findings in H1 2025'
+  - value: '10 months'
+    label: 'Unbroken SLA compliance streak'
+  - value: '100%'
+    label: 'Service ownership attribution'
+  - value: '24 to 7 days'
+    label: 'Remediation cycle time'
+---
+
+## Context
+
+Remediating vulnerabilities across more than 100 cloud services is not primarily a security
+problem. It is a coordination problem wearing a security costume.
+
+The estate had the scanners, the policies and the deadlines. What it did not reliably have
+was an answer to three unglamorous questions: who owns this service, does the owner know
+what they are supposed to do, and is the fleet actually moving toward compliance or just
+generating reports about it.
+
+When those questions are unanswered, the failure mode is predictable. Findings go to the
+wrong team or to no team. Owners receive broad reminders instead of specific actions, so
+they learn to ignore them. Status gets assembled by hand near the deadline, which means
+nobody knows the real position until it is too late to change it. Audit exposure is the
+visible symptom. The underlying condition is that the system has no memory and no
+mechanism.
+
+## Approach
+
+I treated this as a product and operating system problem rather than a reporting one.
+
+The first move was ownership, because everything downstream depends on it. A finding sent
+to an unidentified owner is not a finding, it is noise with a deadline attached. Closing
+attribution gaps meant integrating inventory data so that every service resolved to a team
+that could actually act, and so the action reaching them was precise enough to be worth
+their attention.
+
+The second was cadence. Status that is assembled manually at the end of a cycle is a
+retrospective, not a control. I moved the programme onto a daily operating rhythm with
+automated reporting, so the position was continuously visible rather than periodically
+reconstructed. That changes the character of the conversation. Leadership stops asking
+where are we and starts asking what is blocked.
+
+The third was noise. There is a real tension here and it is worth being honest about it.
+Fewer, better-grouped work items make remediation tractable for the engineers doing it, but
+grouping can be used to hide exposure. The rule I held to was that consolidation had to
+reduce effort without reducing visibility: the audit trail stays intact, the underlying
+findings remain individually accountable, and the grouping exists to make the work
+actionable rather than to make the dashboard look calmer.
+
+We consolidated 44 service namespaces into 8 repository work items on that basis. Cycle time
+fell from 24 days to 7.
+
+## My role
+
+I directed remediation across partner engineering teams and owned the mechanism end to end:
+the operating cadence, the reporting model, the attribution work, the incident workflow and
+the communication to leadership.
+
+I also stayed hands-on with the automation and the status views. That was deliberate. A
+programme like this degrades the moment it depends on a person manually holding it together,
+and the fastest way to know whether a mechanism is genuinely self-sustaining is to have built
+the part that sustains it.
+
+When a deployment and identity setback hit, I led a 129-incident post-mortem and converted
+the findings into permanent changes: image validation, monitoring, alerting and clearer
+escalation thresholds.
+
+## Outcome
+
+- Zero PCI and FedRAMP vulnerability audit findings in H1 2025.
+- A 10-month SLA compliance streak.
+- 100% service ownership attribution.
+- About 80% of incident creation and about 90% of daily SLA reporting automated.
+- Projected incidents reduced 35.8%, from 106 to 68, with full coverage accuracy retained.
+- Remediation cycle time compressed from 24 days to 7.
+
+## What I would do differently
+
+I would set escalation thresholds at the start of a cycle rather than discovering them
+during one.
+
+The instinct when you own the numbers is to wait until they are clean before raising a
+problem. It feels like rigour. It is actually a delay, and it trains partner teams to
+believe that silence means everything is fine. Trust turned out to be built by surfacing an
+accurate early signal with its uncertainty stated, not by producing a perfect number late.
+
+I would also build contingency into the cycle explicitly, particularly where deployment
+timing and infrastructure dependencies can move underneath you near the end.
+
+## References
+
+- [Microsoft Trust Center: compliance offerings](https://www.microsoft.com/en-us/trust-center/compliance/compliance-overview)
+- [FedRAMP compliance offering](https://learn.microsoft.com/en-us/compliance/regulatory/offering-fedramp)
+- [PCI Security Standards Council](https://www.pcisecuritystandards.org/)
+- [Azure security fundamentals](https://learn.microsoft.com/en-us/azure/security/fundamentals/)

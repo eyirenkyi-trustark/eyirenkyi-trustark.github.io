@@ -1,0 +1,80 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, isoDate } from '../lib/site';
+
+interface Props {
+  post: CollectionEntry<'writing'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, kind, source } = post.data;
+---
+
+<article class="post-card">
+  <div class="post-card__meta">
+    <time datetime={isoDate(pubDate)}>{formatDate(pubDate)}</time>
+    <span class="post-card__kind">{kind === 'essay' ? 'Essay' : 'Reading note'}</span>
+  </div>
+
+  <h3 class="post-card__title">
+    <a href={`/writing/${post.id}`}>{title}</a>
+  </h3>
+
+  <p class="post-card__description">{description}</p>
+
+  {
+    source && (
+      <p class="post-card__source">
+        On <span>{source.title}</span>
+        {source.author && <> by {source.author}</>}
+      </p>
+    )
+  }
+</article>
+
+<style>
+  .post-card {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-block: var(--space-l);
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .post-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .post-card__kind {
+    border-left: var(--rule-weight) solid var(--rule-strong);
+    padding-left: var(--space-xs);
+  }
+
+  .post-card__title {
+    font-size: var(--step-subtitle);
+    line-height: 1.35;
+  }
+
+  .post-card__title a:hover {
+    text-decoration: underline;
+  }
+
+  .post-card__description {
+    color: var(--ink-secondary);
+    max-width: var(--measure);
+  }
+
+  .post-card__source {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .post-card__source span {
+    color: var(--ink-secondary);
+  }
+</style>

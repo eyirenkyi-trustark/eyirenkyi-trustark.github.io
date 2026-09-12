@@ -1,0 +1,125 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Logo from './Logo.astro';
+
+interface Props {
+  entry: CollectionEntry<'work'>;
+}
+
+const { entry } = Astro.props;
+const { title, summary, organisation, logo, period, outcomes } = entry.data;
+const headline = outcomes.slice(0, 3);
+---
+
+<article class="work-card">
+  <div class="work-card__aside">
+    <Logo name={logo ?? organisation} size="sm" class="work-card__logo" />
+    <p class="work-card__period">{period}</p>
+  </div>
+
+  <div class="work-card__body">
+    <h3 class="work-card__title">
+      <a href={`/work/${entry.id}`}>{title}</a>
+    </h3>
+
+    <p class="work-card__summary">{summary}</p>
+
+    {
+      headline.length > 0 && (
+        <ul class="work-card__outcomes">
+          {headline.map((outcome) => (
+            <li>
+              <span class="work-card__value">{outcome.value}</span>
+              <span class="work-card__label">{outcome.label}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .work-card {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: var(--space-xl);
+    padding-block: var(--space-xl);
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .work-card__aside {
+    font-size: var(--step-caption);
+    display: grid;
+    gap: var(--space-3xs);
+    align-content: start;
+  }
+
+  .work-card__period {
+    color: var(--ink-muted);
+  }
+
+  .work-card__body {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .work-card__title {
+    font-size: var(--step-title);
+    line-height: var(--step-title-lh);
+    max-width: var(--measure);
+  }
+
+  .work-card__title a:hover {
+    text-decoration: underline;
+  }
+
+  .work-card__summary {
+    color: var(--ink-secondary);
+    max-width: var(--measure);
+  }
+
+  .work-card__outcomes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2xs) 0 0;
+  }
+
+  .work-card__outcomes li {
+    display: grid;
+    gap: var(--space-3xs);
+    max-width: 14rem;
+  }
+
+  .work-card__value {
+    font-family: var(--font-sans);
+    font-size: var(--step-subtitle);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-title);
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .work-card__label {
+    font-size: var(--step-caption);
+    line-height: 1.4;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 52rem) {
+    .work-card {
+      grid-template-columns: 1fr;
+      gap: var(--space-s);
+    }
+
+    .work-card__aside {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      color: var(--ink-muted);
+    }
+  }
+</style>

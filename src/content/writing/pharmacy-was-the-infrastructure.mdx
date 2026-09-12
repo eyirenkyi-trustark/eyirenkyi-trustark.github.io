@@ -1,0 +1,137 @@
+---
+title: 'The pharmacy was the infrastructure all along'
+description: 'Why building inventory software for small African pharmacies turned out to be a bet on primary care itself, and what that taught me about which problems are worth taking seriously.'
+pubDate: 2026-09-12
+kind: essay
+tags: ['Health technology', 'Product strategy', 'Emerging markets']
+---
+
+In 2016 I started working on software for independent pharmacies in Ghana. When I described
+the job, people heard inventory management. Some of them heard it the way you hear that
+someone works in insurance: a polite nod, a change of subject.
+
+They were not wrong about what the software did. They were wrong about what it was for.
+
+## The stock-out is not a supply chain event
+
+Here is the situation the product existed to address. A woman walks into her neighbourhood
+pharmacy with a prescription. The pharmacy does not have the medicine. She is told to come
+back on Thursday, or to try somewhere else.
+
+In a system with slack, this is an inconvenience. She goes to the next pharmacy, or the
+hospital, or she orders online. In most of the markets we worked in there was no next
+pharmacy within reasonable distance, the hospital was expensive and far, and there was no
+online. The community pharmacy was not one channel among several. For a great many people
+it was the entire encounter with the health system: closer than the clinic, cheaper than
+the hospital, open when both were shut, and staffed by someone who knew their name.
+
+So when the shelf was empty, that was frequently the end of the treatment. Not a delay. An
+ending. People do not reliably come back on Thursday. They especially do not come back on
+Thursday for a chronic condition that is not hurting them today.
+
+That is why I stopped thinking of a stock-out as an operational failure. Operationally it is
+a small thing, a forecasting miss, a late delivery. Clinically it is a patient who did not
+get treated. The distance between those two readings of the same event is the whole reason
+the software mattered.
+
+## Why the ordering screen was the wrong product
+
+The obvious build was a better ordering interface. We could have shipped one in a quarter.
+
+It would have failed, and the reason is worth stating plainly, because I think it
+generalises. The pharmacists were not short of a way to place orders. They were short of
+confidence about what to order and short of the cash to be wrong about it. An ordering
+screen addresses neither. It just relocates the guess.
+
+Worse, it charges rent. Every internal tool demands something from the person using it:
+attention, typing, a change in habit. It has to return more than it takes, and it has to
+return it soon. A counter assistant serving a queue will not enter data today for a report
+that helps head office next month. They will enter it for two days, then stop, and the
+dataset will quietly rot while everyone upstream keeps believing in it.
+
+So the design constraint was not "what should the pharmacist see". It was "what can we learn
+without asking anyone to do anything extra". Stock movement had to fall out of selling.
+Replenishment signals had to arrive before the shelf was empty, because a signal that
+arrives after is just a record of a failure. The tool had to be worth using on day one to
+the person actually using it, or it would never live long enough to be worth anything to
+the network.
+
+This is the part I would carry into any internal platform, in any industry. The user of the
+tool and the beneficiary of the tool are often different people. When they are, adoption is
+not a communications problem. It is a design problem, and the only fix is to make the tool
+pay the user directly, immediately, in a currency they care about.
+
+## Boring problems are where the leverage is
+
+We got to roughly a 50% reduction in stock-outs across the network pharmacies, in more than
+60 pharmacies across five or more countries. Half the occasions a patient would have been
+sent away, they were not.
+
+I have been in rooms where that result would be considered unglamorous. No model, no
+breakthrough, no demo that makes people lean forward. Just a shelf that has the thing on it
+more often than it used to.
+
+I have come to think this is a failure of taste rather than a fact about the work. The
+problems that compound are usually dull on the surface and load-bearing underneath.
+Somebody has to know what is in stock. Somebody has to know who owns the service. Somebody
+has to know whether the control actually ran. This work is unfashionable precisely because
+it is infrastructural, and infrastructure is invisible until it is missing.
+
+I now do a version of the same thing at Microsoft, at a different scale and in a different
+vocabulary. Vulnerability remediation across a large cloud estate has a surprising amount in
+common with medicine on a shelf in Accra. In both, the interesting question is not the
+technology. It is whether the person who has to act can see, at the moment of the decision,
+the one thing that would let them act correctly. Most of the failures I have watched in both
+domains were failures of visibility and ownership long before they were failures of
+capability.
+
+## What it became
+
+I left mPharma at the end of 2019, though I kept supporting Bloom afterwards. It already had
+traction by then, live in more than 60 pharmacies across five or more countries. mPharma
+relaunched it in 2020 as the company's pharmacy operating system, and what happened next
+changed my mind about what we had been building.
+
+By mPharma's own
+[2021 Impact Report](https://mpharma.com/wp-content/uploads/2022/04/Impact-Report-_mPharma-2021.pdf),
+Bloom was running in over 250 pharmacies across Sub-Saharan Africa. The network had grown to
+290+ pharmacies across nine countries, and membership in its Mutti programme had gone from
+just under 10,000 at the end of 2019 to more than 150,000. An independent 60 Decibels survey
+in that report found more than 90% of patients saying they rarely experienced stock-outs.
+
+The software had also stopped being about stock. The report describes it carrying diagnostic
+test results to physicians, tracking treatment outcomes for children in a malaria programme,
+supporting Covid-19 testing, and following blood sugar readings for diabetic patients. mPharma
+describes the ambition as a pharmacy-only electronic medical record: patient management as
+the core, with sales and inventory as a consequence rather than the point.
+
+And then the part I genuinely did not see coming. The same report describes Bloom deployed in
+French for the Government of Gabon, running the operations of the national central medical
+stores.
+
+Those 2021 figures are mPharma's, and the credit for that scale belongs to the team running
+it. I cite them because they settle a question I could not settle at the time.
+
+In 2016 the honest version of my job was: we think tooling for small independent pharmacies
+matters, and we cannot prove it. The counter-argument was always available. These are tiny
+businesses. The margins are thin. Surely the leverage is in hospitals, or insurers, or
+anywhere with a bigger budget line.
+
+The answer turned out to be that the corner pharmacy was the right unit to build on, not
+despite being small, but because it was where the population already was. Once something
+trustworthy ran in enough of them, it could carry almost anything: a membership scheme, a
+malaria programme, a diagnostic result, eventually a national supply chain. The inventory
+tool was not the product. It was the reason anyone let us install anything at all.
+
+## The lesson I actually took
+
+Pick the problem that is closest to where the harm happens, even when it looks administrative.
+
+Ambitious framing is cheap, and it tends to pull you toward whoever has the largest budget
+rather than whoever has the most acute constraint. The useful question is narrower and less
+flattering. Where does this system fail a real person, what is the smallest honest thing that
+would stop it failing them, and can I make that thing good enough that people choose to keep
+it?
+
+If the answer is yes, you usually find out later that you were building infrastructure. You
+just were not allowed to call it that at the time.

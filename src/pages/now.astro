@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const updated = new Date('2026-09-12');
+const formatted = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(updated);
+---
+
+<BaseLayout
+  title="Now"
+  description="What I am working on, reading and thinking about at the moment."
+>
+  <section class="wrap wrap--prose page">
+    <p class="eyebrow">Now</p>
+    <h1>What I am working on at the moment.</h1>
+
+    <p class="page__updated">Last updated {formatted}</p>
+
+    <div class="prose">
+      <h2>Working on</h2>
+
+      <p>
+        AI-assisted compliance and vulnerability remediation at Microsoft. The focus is making
+        security operations more auditable and less dependent on manual reporting. The
+        questions I keep returning to are simple to ask and hard to answer: what should be
+        automated, what has to stay human, and how do we prove the system did the right thing.
+      </p>
+
+      <h2>Learning</h2>
+
+      <p>
+        Container orchestration, cloud security, and how large engineering organisations turn
+        compliance requirements into platform capabilities rather than paperwork. I am also
+        paying close attention to the gap between an AI prototype that impresses people and a
+        production system an auditor will accept.
+      </p>
+
+      <h2>Writing</h2>
+
+      <p>
+        Publishing here weekly. Longer essays when I have an argument worth defending, shorter
+        reading notes when someone else has already made the point better than I could.
+      </p>
+
+      <h2>Reading</h2>
+
+      <p>
+        Returning to founder writing, developer experience and pragmatic technology strategy.
+        Paul Graham, Addy Osmani and the ThoughtWorks Technology Radar are the three I come
+        back to most.
+      </p>
+    </div>
+
+    <p class="page__note">
+      This is a <a href="https://nownownow.com/about" rel="noopener">now page</a>. It describes
+      what has my attention at the date above, and nothing more.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .page h1 {
+    font-size: var(--step-title-lg);
+    max-width: 20ch;
+  }
+
+  .page__updated {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+    margin-block: var(--space-s) var(--space-xl);
+  }
+
+  .page__note {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-l);
+    border-top: var(--rule-weight) solid var(--rule);
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .page__note a {
+    text-decoration: underline;
+  }
+</style>

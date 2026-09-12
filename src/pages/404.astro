@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" noindex>
+  <section class="wrap wrap--prose notfound">
+    <p class="eyebrow">404</p>
+    <h1>That page does not exist.</h1>
+    <p class="lede">
+      The link may be out of date, or I may have moved something. These should all work.
+    </p>
+
+    <ul class="notfound__links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/writing">Writing</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-block: var(--space-4xl);
+  }
+
+  .notfound h1 {
+    font-size: var(--step-title-lg);
+    margin-bottom: var(--space-m);
+  }
+
+  .notfound__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-xl);
+    font-size: var(--step-caption);
+  }
+
+  .notfound__links a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+  }
+</style>

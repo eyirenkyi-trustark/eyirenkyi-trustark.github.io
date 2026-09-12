@@ -1,0 +1,208 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import PostCard from '../components/PostCard.astro';
+import Logo from '../components/Logo.astro';
+import { site } from '../lib/site';
+
+const orgs = ['Microsoft', 'Wise', 'mPharma', 'GenKey', 'ClaimSync'];
+
+const featured = (await getCollection('work', ({ data }) => !data.draft && data.featured))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const latest = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title={site.title} description={site.description}>
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="hero__display">
+        I turn complex security obligations into trusted products.
+      </h1>
+
+      <div class="hero__foot">
+        <p class="hero__lede">
+          I am a product and program leader at Microsoft, working on cloud security,
+          compliance and the platforms engineers build on. Before that I shipped regulated
+          fintech at Wise and co-founded a health technology company in Ghana.
+        </p>
+
+        <ul class="hero__links">
+          <li><a href="/work">See the work</a></li>
+          <li><a href="/writing">Read the writing</a></li>
+          <li><a href="/about">About me</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="orgs">
+    <div class="wrap wrap--content">
+      <p class="eyebrow">Where I have built</p>
+      <ul class="orgs__list">
+        {
+          orgs.map((org) => (
+            <li>
+              <Logo name={org} size="md" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap wrap--content">
+      <div class="section__head">
+        <p class="eyebrow">Selected work</p>
+        <a class="section__more" href="/work">All case studies</a>
+      </div>
+
+      {
+        featured.length > 0 ? (
+          <div class="list">
+            {featured.map((entry) => (
+              <WorkCard entry={entry} />
+            ))}
+          </div>
+        ) : (
+          <p class="muted pending">
+            Case studies are being written and will appear here shortly.
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap wrap--content">
+      <div class="section__head">
+        <p class="eyebrow">Latest writing</p>
+        <a class="section__more" href="/writing">All writing</a>
+      </div>
+
+      {
+        latest.length > 0 ? (
+          <div class="list">
+            {latest.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </div>
+        ) : (
+          <p class="muted pending">The first posts are being written. Check back shortly.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .orgs {
+    padding-block: var(--space-l);
+    border-block: var(--rule-weight) solid var(--rule);
+  }
+
+  .orgs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-l) var(--space-2xl);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-m) 0 0;
+    color: var(--ink);
+  }
+
+  .hero {
+    padding-block: var(--space-4xl) var(--space-3xl);
+  }
+
+  .hero__display {
+    font-family: var(--font-sans);
+    font-size: var(--step-display);
+    line-height: var(--step-display-lh);
+    letter-spacing: var(--tracking-display);
+    font-weight: var(--weight-semibold);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+
+  .hero__foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-xl);
+    align-items: end;
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-l);
+    border-top: var(--rule-weight) solid var(--rule);
+  }
+
+  .hero__lede {
+    font-size: var(--step-body-lg);
+    line-height: 1.6;
+    color: var(--ink-secondary);
+    max-width: var(--measure);
+  }
+
+  .hero__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--step-caption);
+  }
+
+  .hero__links a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+  }
+
+  .section__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-bottom: var(--space-s);
+    border-bottom: var(--rule-weight) solid var(--rule);
+  }
+
+  .section__head .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .section__more {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .section__more:hover {
+    color: var(--ink);
+  }
+
+  .pending {
+    padding-top: var(--space-l);
+  }
+
+  @media (max-width: 52rem) {
+    .hero {
+      padding-block: var(--space-3xl) var(--space-2xl);
+    }
+
+    .hero__display {
+      max-width: 100%;
+    }
+
+    .hero__foot {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: var(--space-l);
+    }
+  }
+</style>

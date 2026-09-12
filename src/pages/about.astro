@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../lib/site';
+---
+
+<BaseLayout
+  title="About"
+  description="Product and program leader working across health technology, regulated fintech and hyperscale cloud security."
+>
+  <section class="wrap wrap--prose about">
+    <p class="eyebrow">About</p>
+    <h1>I build products for technical teams working inside regulated, high trust environments.</h1>
+
+    <div class="prose">
+      <p>
+        My work has moved across health care, elections, fintech and hyperscale cloud. The
+        setting has changed, but the pattern has stayed the same. People are asked to do
+        important work inside systems that are complex, fragmented and risky. They need tools
+        that make the right action clear. They need evidence they can trust. They need
+        workflows that reduce noise instead of adding more of it.
+      </p>
+
+      <p>
+        I started in Ghana as a founder. At ClaimSync we built an electronic medical record
+        and claims automation platform for health care providers and insurers. That taught me
+        that product work is not really about screens or features. It is about understanding
+        how people make decisions when the stakes are high. A good product changes the
+        behaviour of a system. In our case, better digital claims workflows helped reduce
+        fraud by about 20% and created enough value for the company to be acquired.
+      </p>
+
+      <p>
+        At mPharma I built Bloom, the pharmacy operating system. The problem was
+        basic and serious. Pharmacies could not reliably keep the right medicines in stock,
+        and patients paid for it. We built inventory and operating tools for more than 60
+        pharmacies across five or more countries and cut stock-outs by nearly half. mPharma
+        relaunched Bloom in 2020 and by the following year it was running in over 250
+        pharmacies and had been deployed to run a national medicines supply chain. That work
+        shaped how I think about product leadership. The best products are not clever for
+        their own sake. They remove a constraint that people feel every day.
+      </p>
+
+      <p>
+        At Wise I worked on regional expansion across the Middle East and Africa. I learned
+        how much judgment is required when regulation, operations, banking partners and
+        customer needs all meet at once. Launching Send Money in the UAE through an ADGM
+        Money Services licence was not only a market launch. It was a lesson in earning trust
+        before scale.
+      </p>
+
+      <p>
+        At Microsoft my focus has been developer experience, platform compliance and security
+        automation. I work on products and operating mechanisms that help engineering teams
+        understand their services, improve reliability, produce audit evidence and remediate
+        vulnerabilities. The strongest results came when we treated compliance as a product
+        problem rather than a reporting problem. We reduced recurring reporting effort by
+        about 70%, automated about 80% of incident creation and about 90% of daily SLA
+        reporting, and delivered zero PCI and FedRAMP vulnerability audit findings in H1 2025.
+      </p>
+
+      <h2>What I optimise for</h2>
+
+      <p>
+        Clarity, trust and leverage. Clarity means a team knows what matters and why. Trust
+        means the data, the controls and the decisions are auditable. Leverage means removing
+        repeated effort so people can spend their time on judgment, design and engineering
+        instead.
+      </p>
+
+      <h2>How I lead</h2>
+
+      <p>
+        I write things down. I listen carefully. I use data without hiding behind it. I build
+        operating cadences that survive beyond any one person, including me. I like teams
+        where product managers stay close to the work, close to engineers, and honest about
+        tradeoffs.
+      </p>
+
+      <p>
+        I have also stayed hands-on in every role. I have found that you cannot tell whether a
+        mechanism is genuinely self-sustaining unless you have built part of the thing that
+        sustains it.
+      </p>
+
+      <h2>What I want next</h2>
+
+      <p>
+        The same kind of problem I have kept choosing. Complex systems. Real risk. Many teams.
+        A need to turn ambiguity into trusted products that make people better at their work.
+      </p>
+    </div>
+
+    <div class="about__foot">
+      <h2 class="about__foot-title">Elsewhere</h2>
+      <ul class="about__links">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={site.linkedin} rel="me noopener">LinkedIn</a></li>
+        <li><a href="/cv">Curriculum vitae</a></li>
+        <li><a href="/speaking">Speaking and mentorship</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .about h1 {
+    font-size: var(--step-title-lg);
+    max-width: 20ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .about__foot {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-l);
+    border-top: var(--rule-weight) solid var(--rule);
+  }
+
+  .about__foot-title {
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-s);
+  }
+
+  .about__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--step-caption);
+  }
+
+  .about__links a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+  }
+</style>

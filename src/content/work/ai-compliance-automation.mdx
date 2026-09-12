@@ -1,0 +1,97 @@
+---
+title: 'AI that an auditor will accept'
+summary: 'Productising AI-assisted compliance work under Responsible AI controls, where determinism and evidence matter more than fluency.'
+organisation: Microsoft
+role: 'Senior Program Manager, Developer Experience and Platform Compute'
+period: '2024 to present'
+order: 2
+featured: true
+tags: ['Applied AI', 'Responsible AI', 'Compliance', 'Automation']
+outcomes:
+  - value: '~70%'
+    label: 'Reduction in recurring reporting effort'
+  - value: '~16.7'
+    label: 'Person-days returned each month'
+  - value: '~90%'
+    label: 'Of daily SLA reporting automated'
+  - value: 'Zero'
+    label: 'PCI and FedRAMP audit findings in the same period'
+---
+
+## Context
+
+Compliance reporting is an unusually good candidate for automation and an unusually bad
+candidate for a chatbot.
+
+The work was recurring, structured and expensive: gather data, reconcile it, format it,
+explain it, repeat next cycle. It consumed roughly 16.7 person-days a month of effort that
+produced no new insight, only the same insight re-derived by hand.
+
+But the constraint that makes it valuable is also the constraint that makes it hard. A
+compliance artefact has to be defensible. An auditor is not asking whether the output sounds
+plausible. They are asking where the number came from, whether the same inputs produce the
+same answer, and who is accountable for it. A system that is usually right and occasionally
+inventive is worse than no system, because it launders uncertainty into an official-looking
+document.
+
+## Approach
+
+I worked from one principle: automation can accelerate compliance only when the control
+model is stronger than the manual process it replaces.
+
+That principle does a lot of work. It rules out generation where retrieval will do. It
+requires that the same question asked twice returns the same answer, because reviewers need
+to compare cycles. It means unsupported scenarios must be refused rather than approximated,
+since a confident guess is the one failure mode an audit cannot absorb. And it requires that
+anything involving judgment routes to a human by design, not as an exception.
+
+So the deterministic path carried the load. The language model was used where it is genuinely
+strong, which is turning a verified result into clear guidance a person can act on, rather
+than being asked to decide what the result was.
+
+The sequencing mattered too. I started with the highest-friction recurring tasks, the ones
+structured enough to automate honestly and costly enough to justify the control work. And I
+put the capability where the work already happened, inside an existing enterprise engineering
+assistant, rather than asking engineers to visit a new destination. A compliance tool nobody
+opens has a compliance value of zero.
+
+## My role
+
+I owned the product direction, the control expectations and the rollout path. I translated
+compliance requirements into product requirements, aligned the design with Responsible AI
+expectations, shaped the experience and secured engineering support.
+
+A quieter part of the job was narrative discipline. There is significant organisational
+enthusiasm for anything labelled AI, and it pulls teams toward demonstrations. I kept this
+framed as operational leverage with an audit trail, which is less exciting to present and
+considerably more likely to survive contact with a reviewer.
+
+## Outcome
+
+- Recurring compliance and vulnerability reporting effort reduced about 70%, roughly 16.7
+  person-days each month.
+- About 90% of daily SLA reporting automated.
+- AI-assisted remediation guidance shipped into an enterprise engineering assistant under
+  Responsible AI controls, generating fix instructions and code changes with review paths
+  intact.
+- Zero PCI and FedRAMP vulnerability audit findings in H1 2025.
+
+## What I would do differently
+
+I would treat production hardening as a roadmap item from day one instead of a final
+milestone.
+
+The prototype proved value in weeks, which is exactly the problem. A working demo creates an
+expectation of imminence, and everything that actually determines whether the system can be
+trusted, which is permissions, reliability, monitoring, failure behaviour and control
+documentation, sits after that demo and takes far longer. I under-planned that phase because
+the early signal was so strong.
+
+The general lesson: with AI features, the demo is the cheap part. Plan the schedule around
+what it takes to make the thing defensible, not around what it takes to make it impressive.
+
+## References
+
+- [Microsoft Responsible AI](https://www.microsoft.com/en-us/ai/responsible-ai)
+- [Microsoft Trust Center: compliance offerings](https://www.microsoft.com/en-us/trust-center/compliance/compliance-overview)
+- [FedRAMP compliance offering](https://learn.microsoft.com/en-us/compliance/regulatory/offering-fedramp)

@@ -1,0 +1,147 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate, isoDate } from '../../lib/site';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await render(post);
+const { title, description, pubDate, updatedDate, kind, tags, source } = post.data;
+const readingTime = remarkPluginFrontmatter?.['minutesRead'];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  publishedDate={pubDate}
+>
+  <article>
+    <header class="post-head wrap wrap--prose">
+      <p class="eyebrow">
+        <a href="/writing">{kind === 'essay' ? 'Essay' : 'Reading note'}</a>
+      </p>
+
+      <h1>{title}</h1>
+
+      <p class="post-head__meta">
+        <time datetime={isoDate(pubDate)}>{formatDate(pubDate)}</time>
+        {readingTime && <span>· {readingTime}</span>}
+        {
+          updatedDate && (
+            <span>
+              · Updated <time datetime={isoDate(updatedDate)}>{formatDate(updatedDate)}</time>
+            </span>
+          )
+        }
+      </p>
+
+      {
+        source && (
+          <p class="post-head__source">
+            On <a href={source.url} rel="noopener">{source.title}</a>
+            {source.author && <> by {source.author}</>}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="wrap wrap--prose post-body">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <footer class="wrap wrap--prose post-foot">
+      {
+        tags.length > 0 && (
+          <ul class="tags">
+            {tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+      <a class="back" href="/writing">All writing</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-head {
+    padding-top: var(--space-2xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .post-head h1 {
+    font-size: var(--step-title-lg);
+    max-width: 24ch;
+  }
+
+  .eyebrow a {
+    color: var(--ink-muted);
+  }
+
+  .post-head__meta {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .post-head__source {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+    border-left: 2px solid var(--rule-strong);
+    padding-left: var(--space-s);
+  }
+
+  .post-body {
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
+  .post-foot {
+    display: grid;
+    gap: var(--space-m);
+    padding-top: var(--space-l);
+    border-top: var(--rule-weight) solid var(--rule);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tags li {
+    font-size: var(--step-micro);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border: var(--rule-weight) solid var(--rule);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+  }
+
+  .back {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .back:hover {
+    color: var(--ink);
+  }
+</style>

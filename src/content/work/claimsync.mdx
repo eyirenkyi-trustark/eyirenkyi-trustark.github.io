@@ -1,0 +1,87 @@
+---
+title: 'ClaimSync: digitising medical claims in Ghana'
+summary: 'Co-founding an electronic medical record and claims automation platform for providers and insurers, later acquired by GenKey.'
+organisation: ClaimSync
+role: 'Co-founder, Product Designer and Implementation Lead'
+period: 'Jun 2011 to Jan 2014'
+order: 6
+featured: false
+tags: ['Founder', 'Health technology', 'Claims automation', 'Regulated products']
+outcomes:
+  - value: '~20%'
+    label: 'Reduction in fraud through claims automation'
+  - value: 'Acquired'
+    label: 'By GenKey'
+  - value: 'End to end'
+    label: 'Discovery, design, implementation and support'
+---
+
+## Context
+
+Health care providers and insurers in Ghana were running on paper.
+
+A claim began as handwriting, moved physically between a clinic and an insurer, and was
+adjudicated by people reading documents. The consequences were predictable and compounding.
+Reimbursement was slow, which strained provider cash flow. Administration consumed clinical
+staff time. And fraud was difficult to detect, not because anyone lacked suspicion, but
+because paper does not support the kind of pattern comparison that makes fraud visible. An
+individual claim can look entirely reasonable. The pattern across a thousand claims is where
+the problem lives, and nobody could see the pattern.
+
+## Approach
+
+We built an electronic medical record and automated claims platform from nothing, for a
+market with real infrastructure constraints and very little appetite for systems that
+assumed ideal conditions.
+
+The central design tension was that the product had three audiences with different incentives.
+Clinical staff needed it fast enough not to slow down care, and they were the ones doing the
+data entry. Administrators needed it to shorten the reimbursement cycle. Insurers needed
+output they could trust enough to pay against. If we optimised for the insurer, clinicians
+would not use it, and without clinician use there was no data for the insurer to trust. The
+data quality that made fraud detection possible was entirely downstream of whether the person
+at the point of care found the system tolerable.
+
+Structuring claims digitally was what changed the economics. Once claims were consistent and
+machine-readable, validation could happen at submission rather than weeks later, errors could
+be caught before they propagated, and patterns that should not pass unchecked became visible.
+That contributed to roughly a 20% reduction in fraud.
+
+This was where I learned the thing I have relied on ever since: in a regulated product, trust
+is not a quality attribute layered on top of the features. It is the product. Everything else
+is delivery mechanism.
+
+## My role
+
+I co-founded the company and led product design and implementation.
+
+At that stage there is no meaningful division of labour. I sat with customers, translated
+clinical and administrative workflows into requirements, designed the interface, supported
+deployments and handled the problems that surfaced afterwards. I also made the resource
+tradeoffs that founders make, usually with worse information than I would have liked.
+
+## Outcome
+
+- Built and deployed an electronic medical record and automated insurance claims platform.
+- Claims automation contributed to a roughly 20% reduction in fraud.
+- The company was acquired by GenKey, where I went on to lead front-end engineering and user
+  experience for voter registration systems used in African elections.
+- Gained founder-level experience across discovery, delivery, implementation and regulated
+  operations.
+
+## What I would do differently
+
+I would have documented implementation patterns from the first deployment rather than the
+fifth.
+
+Early founder work rewards speed, and we were fast. The cost showed up as soon as we had
+several customers live, because we could no longer easily distinguish between a genuine
+customer-specific need and something we had simply happened to build differently that time.
+Without that distinction you cannot tell what should become a standard product capability,
+and every new deployment inherits a little more accidental variation.
+
+Writing it down felt like overhead at three customers. It would have paid for itself by six.
+
+## References
+
+- [GenKey](https://www.genkey.com/)

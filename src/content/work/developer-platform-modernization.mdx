@@ -1,0 +1,95 @@
+---
+title: 'Getting engineers to adopt a platform they did not choose'
+summary: 'Growing a developer modernization platform by making reliability and migration signals relevant at the moment service owners could act on them.'
+organisation: Microsoft
+role: 'Product and Program Manager, Developer Experience and Platform Compute'
+period: 'Mar 2021 to Aug 2024'
+order: 3
+featured: true
+tags: ['Developer experience', 'Platform product', 'DORA', 'Adoption']
+outcomes:
+  - value: '82% / 165%'
+    label: 'Growth in users and usage in one half-year'
+  - value: '497'
+    label: 'Services reporting DORA metrics to 180 owners monthly'
+  - value: '16 to 22%'
+    label: 'Reduction in new-service onboarding effort'
+  - value: '100%'
+    label: 'Base image attribution'
+---
+
+## Context
+
+Internal platforms have a distinctive problem. Your users cannot leave, and that is worse
+for you than it sounds.
+
+In a market, indifference shows up as churn and you are forced to respond. Inside a company,
+indifference shows up as compliance: teams technically adopt the thing, do the minimum, and
+route around it in practice. The metric looks acceptable while the product quietly fails.
+
+The modernization platform had genuinely useful data about service health, dependency
+currency and delivery performance. What it did not consistently have was relevance at the
+moment of decision. Engineering teams could see information, but seeing information and
+knowing what to do next are different states, and only the second one changes behaviour.
+
+## Approach
+
+I shifted the product from presenting data to answering a question the service owner
+already had.
+
+That sounds small and it is not. It changes what you build. A page that lists a service's
+properties is a reference document. A view that says this dependency is the one exposing
+you, here is the migration path, here is what it costs you to keep deferring it, is a
+decision aid. Only the second earns a return visit.
+
+We also introduced four DORA reliability metrics across 497 services, reported monthly to
+180 owners. The value was less the metrics themselves than the shared vocabulary. Before,
+conversations about developer experience were anecdotal and therefore unresolvable, since
+every party could cite a different story. Afterwards leaders and service owners were arguing
+about the same numbers, which is the precondition for actually fixing anything.
+
+The adoption lesson was blunt. We ran awareness campaigns and they helped at the margin, but
+the durable driver was relevance. Teams returned when the product made a real problem easier
+to understand. They did not return because we told them about it. Internal platforms grow by
+meeting developers inside work they were already doing, not by competing for their attention
+with it.
+
+Alongside this, I reduced onboarding friction by removing five duplicative tasks per service,
+and converged compliance reporting so that all of a major workload's release and build data
+appeared in a single audit experience instead of being reassembled from several tools.
+
+## My role
+
+I owned product vision, roadmap, SDLC and stakeholder communication across two major
+Microsoft engineering organisations. I wrote the product artefacts, defined the customer
+journeys, drove engineering prioritisation, supported user research, and positioned the
+platform as a source of decision-grade data rather than another dashboard.
+
+## Outcome
+
+- Adoption up 82% in users and 165% in usage in a single half-year.
+- Four DORA reliability metrics delivered for 497 services to 180 owners monthly.
+- New-service onboarding effort reduced 16 to 22%, by removing five duplicative tasks per
+  service.
+- 100% base image attribution reached.
+- Compliance reporting converged so 100% of a major workload's release and build data sits in
+  one audit experience, retiring duplicated tooling.
+
+## What I would do differently
+
+I would make fewer, larger bets earlier.
+
+In the first phase I optimised too much for coverage and for responsiveness to stakeholder
+requests. Both feel like good product management. Both spread the team thin across features
+that were individually reasonable and collectively unmemorable. The stronger move was to
+identify the two or three journeys with the sharpest customer pain, instrument those
+properly, and be willing to disappoint people about the rest.
+
+Saying no to an internal stakeholder is harder than saying no to a market, because the
+stakeholder is in your next meeting. That is a reason to plan for it, not a reason to avoid
+it.
+
+## References
+
+- [Azure security fundamentals](https://learn.microsoft.com/en-us/azure/security/fundamentals/)
+- [Microsoft Trust Center: compliance offerings](https://www.microsoft.com/en-us/trust-center/compliance/compliance-overview)

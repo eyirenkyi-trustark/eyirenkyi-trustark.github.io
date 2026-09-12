@@ -1,0 +1,211 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Logo from '../../components/Logo.astro';
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection('work', ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, organisation, logo, role, period, outcomes, tags } =
+  entry.data;
+---
+
+<BaseLayout title={title} description={summary} type="article">
+  <article>
+    <header class="case-head wrap wrap--content">
+      <p class="eyebrow">
+        <a href="/work">Work</a>
+      </p>
+
+      <Logo name={logo ?? organisation} size="md" class="case-logo" />
+
+      <h1>{title}</h1>
+      <p class="lede">{summary}</p>
+
+      <dl class="case-facts">
+        <div>
+          <dt>Organisation</dt>
+          <dd>{organisation}</dd>
+        </div>
+        <div>
+          <dt>Role</dt>
+          <dd>{role}</dd>
+        </div>
+        <div>
+          <dt>Period</dt>
+          <dd>{period}</dd>
+        </div>
+      </dl>
+    </header>
+
+    {
+      outcomes.length > 0 && (
+        <section class="wrap wrap--content">
+          <ul class="metrics">
+            {outcomes.map((outcome) => (
+              <li>
+                <span class="metrics__value">{outcome.value}</span>
+                <span class="metrics__label">{outcome.label}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="wrap wrap--content case-body">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <footer class="wrap wrap--content case-foot">
+      {
+        tags.length > 0 && (
+          <ul class="tags">
+            {tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+
+      <p class="provenance">
+        Figures reflect outcomes summarised in my CV. No confidential systems, data or
+        implementation detail are described here.
+      </p>
+
+      <a class="back" href="/work">All case studies</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .case-head {
+    padding-top: var(--space-2xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .case-logo {
+    color: var(--ink-muted);
+  }
+
+  .case-head h1 {    font-size: var(--step-title-lg);
+    max-width: 22ch;
+  }
+
+  .case-head .lede {
+    max-width: var(--measure);
+  }
+
+  .eyebrow a {
+    color: var(--ink-muted);
+  }
+
+  .case-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xl);
+    margin: 0;
+    padding-top: var(--space-s);
+    border-top: var(--rule-weight) solid var(--rule);
+  }
+
+  .case-facts dt {
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: var(--space-3xs);
+  }
+
+  .case-facts dd {
+    margin: 0;
+    font-size: var(--step-caption);
+    color: var(--ink);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-l);
+    list-style: none;
+    padding: var(--space-xl) 0;
+    margin: var(--space-xl) 0 0;
+    border-block: var(--rule-weight) solid var(--rule);
+  }
+
+  .metrics li {
+    display: grid;
+    gap: var(--space-3xs);
+    align-content: start;
+  }
+
+  .metrics__value {
+    font-family: var(--font-sans);
+    font-size: var(--step-title);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-title);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metrics__label {
+    font-size: var(--step-caption);
+    line-height: 1.45;
+    color: var(--ink-muted);
+  }
+
+  .case-body {
+    padding-block: var(--space-2xl);
+  }
+
+  .case-foot {
+    display: grid;
+    gap: var(--space-m);
+    padding-top: var(--space-l);
+    border-top: var(--rule-weight) solid var(--rule);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tags li {
+    font-size: var(--step-micro);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border: var(--rule-weight) solid var(--rule);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+  }
+
+  .provenance {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+    max-width: var(--measure);
+  }
+
+  .back {
+    font-size: var(--step-caption);
+    color: var(--ink-muted);
+  }
+
+  .back:hover {
+    color: var(--ink);
+  }
+</style>

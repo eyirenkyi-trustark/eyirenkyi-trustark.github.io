@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, contact } from '../lib/site';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch about product leadership roles, advisory work, speaking or mentorship."
+>
+  <section class="wrap wrap--prose page">
+    <p class="eyebrow">Contact</p>
+    <h1>Get in touch.</h1>
+
+    <p class="lede">
+      I am happy to hear about product leadership roles, advisory work, speaking invitations
+      and mentorship. I read everything and reply to what I can.
+    </p>
+
+    {
+      contact.configured ? (
+        <form class="form" action={contact.action} method="POST">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="7" required></textarea>
+          </div>
+
+          {/* Honeypot. Bots fill this in, humans never see it. */}
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="company">Company</label>
+            <input id="company" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button class="submit" type="submit">Send message</button>
+        </form>
+      ) : (
+        <div class="fallback">
+          <p>
+            The contact form is not connected yet. In the meantime, email is the fastest way to
+            reach me.
+          </p>
+        </div>
+      )
+    }
+
+    <div class="direct">
+      <h2>Direct</h2>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={site.linkedin} rel="me noopener">linkedin.com/in/eyirenkyi</a></li>
+      </ul>
+      <p class="muted">{site.location}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .page h1 {
+    font-size: var(--step-title-lg);
+    margin-bottom: var(--space-m);
+  }
+
+  .page .lede {
+    max-width: var(--measure);
+  }
+
+  .form {
+    display: grid;
+    gap: var(--space-m);
+    margin-top: var(--space-2xl);
+    max-width: 34rem;
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  label {
+    font-size: var(--step-caption);
+    color: var(--ink-secondary);
+  }
+
+  input,
+  textarea {
+    background-color: var(--ground-raised);
+    border: var(--rule-weight) solid var(--rule-strong);
+    border-radius: var(--radius);
+    padding: var(--space-2xs) var(--space-xs);
+    color: var(--ink);
+    font-size: var(--step-body);
+    width: 100%;
+    resize: vertical;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible {
+    border-color: var(--ink);
+  }
+
+  .submit {
+    justify-self: start;
+    background-color: var(--ink);
+    color: var(--ground);
+    border: var(--rule-weight) solid var(--ink);
+    border-radius: var(--radius);
+    padding: var(--space-2xs) var(--space-m);
+    font-size: var(--step-caption);
+    cursor: pointer;
+    transition: opacity var(--duration-fast) var(--ease);
+  }
+
+  .submit:hover {
+    opacity: 0.85;
+  }
+
+  .fallback {
+    margin-top: var(--space-xl);
+    padding: var(--space-m);
+    border: var(--rule-weight) solid var(--rule);
+    border-radius: var(--radius);
+    background-color: var(--ground-sunken);
+    font-size: var(--step-caption);
+    color: var(--ink-secondary);
+    max-width: 34rem;
+  }
+
+  .direct {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-l);
+    border-top: var(--rule-weight) solid var(--rule);
+  }
+
+  .direct h2 {
+    font-size: var(--step-micro);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-s);
+  }
+
+  .direct ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-s);
+    display: grid;
+    gap: var(--space-2xs);
+    font-size: var(--step-caption);
+  }
+
+  .direct a {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-underline);
+  }
+
+  .direct .muted {
+    font-size: var(--step-caption);
+  }
+</style>
