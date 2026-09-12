@@ -14,6 +14,7 @@ export type RoleKey =
   | 'wise'
   | 'mpharma'
   | 'genkey'
+  | 'education'
   | 'community';
 
 export type SourceKind =
@@ -63,17 +64,24 @@ export const roles: Role[] = [
   {
     key: 'genkey',
     organisation: 'ClaimSync and GenKey',
-    title: 'Founder, then product after acquisition',
-    period: '2013 to 2016',
+    title: 'Founder, then front-end and user experience after the acquisition',
+    period: '2011 to 2016',
     order: 4,
     work: 'claimsync',
+  },
+  {
+    key: 'education',
+    organisation: 'Education',
+    title: 'University of Ghana, MEST Africa, and executive education since',
+    period: '2005 to 2020',
+    order: 5,
   },
   {
     key: 'community',
     organisation: 'Community',
     title: 'Speaking, mentoring and writing',
     period: 'Ongoing',
-    order: 5,
+    order: 6,
   },
 ];
 
@@ -330,6 +338,16 @@ export const sources: Source[] = [
 
   // ClaimSync and GenKey
   {
+    id: 'techcrunch-mest',
+    title: 'MEST appoints a new managing director as it scales across Africa',
+    url: 'https://techcrunch.com/2017/09/11/1538559/',
+    publisher: 'TechCrunch',
+    date: '2017-09-11',
+    role: 'genkey',
+    kind: 'press',
+    note: 'Names ClaimSync as one of only two MEST portfolio companies to have been acquired. Founder outcomes in West Africa were not common in 2013, which is why the programme gets cited this way.',
+  },
+  {
     id: 'genkey',
     title: 'GenKey',
     url: 'https://www.genkey.com/',
@@ -337,7 +355,57 @@ export const sources: Source[] = [
     date: '2016-01-01',
     role: 'genkey',
     kind: 'reference',
-    note: 'The company that acquired ClaimSync, and where the claims work carried on.',
+    note: 'The company that acquired ClaimSync, and where the claims work carried on into biometric voter registration.',
+  },
+
+  // Education and training
+  {
+    id: 'forbes-mest-expansion',
+    title: 'Incubator and seed fund MEST expands to Lagos and Cape Town',
+    url: 'https://www.forbes.com/sites/tobyshapshak/2017/11/23/incubator-and-seed-fund-mest-expands-to-lagos-and-cape-town/',
+    publisher: 'Forbes',
+    date: '2017-11-23',
+    role: 'education',
+    kind: 'press',
+    note: 'By Toby Shapshak, on MEST growing beyond Accra. The training programme I came through, reported as it became pan-African.',
+  },
+  {
+    id: 'mest-africa',
+    title: 'MEST Africa',
+    url: 'https://meltwater.org/',
+    publisher: 'Meltwater Foundation',
+    date: '2011-06-01',
+    role: 'education',
+    kind: 'reference',
+    note: 'Two years of software, business and selling before the product is finished. ClaimSync came out of it.',
+  },
+  {
+    id: 'university-of-ghana',
+    title: 'University of Ghana',
+    url: 'https://www.ug.edu.gh/',
+    publisher: 'University of Ghana',
+    date: '2020-11-01',
+    role: 'education',
+    kind: 'reference',
+    note: 'BSc Biochemistry, 2005 to 2009, and an EMBA in Entrepreneurship Management, 2017 to 2020.',
+  },
+  {
+    id: 'mit-sloan-exec',
+    title: 'Implementing Enterprise-wide Transformation',
+    url: 'https://executive.mit.edu/',
+    publisher: 'MIT Sloan School of Management',
+    date: '2018-01-15',
+    role: 'education',
+    kind: 'reference',
+  },
+  {
+    id: 'yale-som-exec',
+    title: 'Executive education',
+    url: 'https://som.yale.edu/programs/executive-education',
+    publisher: 'Yale School of Management',
+    date: '2018-01-10',
+    role: 'education',
+    kind: 'reference',
   },
 
   // Community

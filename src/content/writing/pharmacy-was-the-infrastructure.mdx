@@ -6,6 +6,8 @@ kind: essay
 tags: ['Health technology', 'Product strategy', 'Emerging markets']
 ---
 
+import Figure from '../../components/Figure.astro';
+
 In 2016 I started working on software for independent pharmacies in Ghana. When I described
 the job, people heard inventory management. Some of them heard it the way you hear that
 someone works in insurance: a polite nod, a change of subject.
@@ -61,6 +63,13 @@ tool and the beneficiary of the tool are often different people. When they are, 
 not a communications problem. It is a design problem, and the only fix is to make the tool
 pay the user directly, immediately, in a currency they care about.
 
+<Figure
+  src="/images/work/bloom-mutti-pos.png"
+  alt="The Bloom point of sale: a member lookup on the left, a product search in the middle, and a cart on the right applying a member discount and offering to schedule a refill."
+  caption="What that looks like in practice. The counter assistant is selling, which is the thing they were going to do anyway. Stock movement, member pricing and refill scheduling are consequences of the sale rather than extra work bolted onto it."
+  credit="Bloom, mPharma. Demonstration data."
+/>
+
 ## Boring problems are where the leverage is
 
 We got to roughly a 50% reduction in stock-outs across the network pharmacies, in more than
@@ -76,6 +85,20 @@ problems that compound are usually dull on the surface and load-bearing undernea
 Somebody has to know what is in stock. Somebody has to know who owns the service. Somebody
 has to know whether the control actually ran. This work is unfashionable precisely because
 it is infrastructural, and infrastructure is invisible until it is missing.
+
+There is a second-order effect I did not see coming. Once selling is instrumented, the
+network starts answering questions nobody asked it.
+
+<Figure
+  src="/images/work/bloom-antimalarial-analytics.png"
+  alt="A Bloom analytics view of anti-malarial sales, comparing volume against value, and relating malaria test kit sales to courses of therapy dispensed."
+  caption="Anti-malarial dispensing across the network. Patients buy full courses rather than half or quarter packs, which is what you want and cannot assume. And roughly one course of therapy was dispensed for every two malaria tests, which is a positivity estimate that arrived from a till rather than a clinic. Inventory software had quietly become a public health instrument."
+  credit="Bloom, mPharma."
+/>
+
+Nobody set out to build a disease surveillance network. We set out to stop pharmacies
+running out of medicine. The surveillance was a by-product of doing the boring thing
+carefully, at enough places, for long enough.
 
 I now do a version of the same thing at Microsoft, at a different scale and in a different
 vocabulary. Vulnerability remediation across a large cloud estate has a surprising amount in

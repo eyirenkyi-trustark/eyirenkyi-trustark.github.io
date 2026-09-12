@@ -18,6 +18,10 @@ const work = defineCollection({
     logo: z.string().optional(),
     role: z.string(),
     period: z.string(),
+    // Lead image for cards and listings. The study itself uses <Figure>
+    // inline, so a cover is a preview rather than a hero.
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
     // Sort key. Lower numbers appear first on the index.
     order: z.number().default(99),
     featured: z.boolean().default(false),

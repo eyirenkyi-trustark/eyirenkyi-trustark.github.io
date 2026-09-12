@@ -7,11 +7,12 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { title, summary, organisation, logo, period, outcomes } = entry.data;
+const { title, summary, organisation, logo, period, outcomes, cover, coverAlt } =
+  entry.data;
 const headline = outcomes.slice(0, 3);
 ---
 
-<article class="work-card">
+<article class:list={['work-card', cover && 'work-card--illustrated']}>
   <div class="work-card__aside">
     <Logo name={logo ?? organisation} size="sm" class="work-card__logo" />
     <p class="work-card__period">{period}</p>
@@ -23,6 +24,14 @@ const headline = outcomes.slice(0, 3);
     </h3>
 
     <p class="work-card__summary">{summary}</p>
+
+    {
+      cover && (
+        <a class="work-card__cover" href={`/work/${entry.id}`} tabindex="-1" aria-hidden="true">
+          <img src={cover} alt={coverAlt ?? ''} loading="lazy" decoding="async" />
+        </a>
+      )
+    }
 
     {
       headline.length > 0 && (
@@ -77,6 +86,35 @@ const headline = outcomes.slice(0, 3);
   .work-card__summary {
     color: var(--ink-secondary);
     max-width: var(--measure);
+  }
+
+  .work-card__cover {
+    display: block;
+    margin-top: var(--space-2xs);
+    max-width: 34rem;
+    border: var(--rule-weight) solid var(--rule);
+    background: var(--ground-raised);
+    overflow: hidden;
+  }
+
+  .work-card__cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: grayscale(1) contrast(1.02);
+    transition:
+      filter var(--duration) var(--ease),
+      transform var(--duration) var(--ease);
+  }
+
+  .work-card:hover .work-card__cover img {
+    filter: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-card__cover img {
+      transition: none;
+    }
   }
 
   .work-card__outcomes {

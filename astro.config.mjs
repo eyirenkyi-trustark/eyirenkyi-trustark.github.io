@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://eyirenkyi.github.io',
+  site: 'https://eyirenkyi-trustark.github.io',
   base: '/',
   trailingSlash: 'ignore',
   integrations: [mdx(), sitemap()],

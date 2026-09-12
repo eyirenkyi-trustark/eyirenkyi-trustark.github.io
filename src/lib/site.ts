@@ -9,7 +9,7 @@ export const site = {
   role: 'Product and Program Leadership',
   description:
     'Product and program leader working on security, compliance and developer platforms. Writing weekly about building trustworthy systems at scale.',
-  url: 'https://eyirenkyi.github.io',
+  url: 'https://eyirenkyi-trustark.github.io',
   locale: 'en',
   location: 'Atlanta, Georgia',
   email: 'eaddoyirenkyi@gmail.com',
